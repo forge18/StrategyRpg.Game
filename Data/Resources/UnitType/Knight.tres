@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://cwp8yaujl0qw8"]
+
+[ext_resource type="Texture2D" uid="uid://b7k0ihdy4qpba" path="res://Art/Icons/icon.png" id="1_uaqlq"]
+[ext_resource type="Script" path="res://Models/Schemas/UnitTypeSchema.cs" id="2_xqrpv"]
+
+[resource]
+resource_name = "Knight"
+script = ExtResource("2_xqrpv")
+DataId = "14"
+Name = "Knight"
+Description = "I am a knight"
+Sprite = ExtResource("1_uaqlq")
+HealthMax = 10
+StaminaMax = 10
+ManaMax = 10
+Power = 10
+Finesse = 12
+Resolve = 10
+Control = 10
+Inventory = []
+ActiveAbilities = []
+PassiveAbilities = []
+UnslottedAbilities = []

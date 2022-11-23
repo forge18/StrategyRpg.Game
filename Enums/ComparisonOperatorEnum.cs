@@ -1,0 +1,15 @@
+public enum ComparisonOperatorEnum
+{
+    CONTAINS,
+    DOES_NOT_CONTAIN,
+    DOES_NOT_EQUAL,
+    EQUALS,
+    IS_EMPTY,
+    IS_FALSE,
+    IS_GREATER_THAN,
+    IS_GREATER_THAN_OR_EQUAL,
+    IS_LESS_THAN,
+    IS_LESS_THAN_OR_EQUAL,
+    IS_NOT_EMPTY,
+    IS_TRUE
+}

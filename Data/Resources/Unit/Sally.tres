@@ -1,0 +1,12 @@
+[gd_resource type="Resource" load_steps=3 format=3 uid="uid://381335j885f0"]
+
+[ext_resource type="Resource" uid="uid://cwp8yaujl0qw8" path="res://Models/Data/UnitType/Knight.tres" id="1_x8d1m"]
+[ext_resource type="Script" path="res://Models/Schemas/UnitSchema.cs" id="2_pmge6"]
+
+[resource]
+resource_name = "Sally"
+script = ExtResource("2_pmge6")
+DataId = "Sally1"
+UnitName = "Sally"
+Type = ExtResource("1_x8d1m")
+MovementSpeed = 6
