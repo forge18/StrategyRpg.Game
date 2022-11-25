@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.Scenario.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(ScenarioSchema schema)
+        public Entity MapDataToEntity(ScenarioSchema schema)
         {
-            if (schema == null || schema.DataId == null || schema.Name == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null || schema.Name == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsScenario>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.Scenario });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
             newEntity.Set<Name>(new Name() { Value = schema.Name });
 
@@ -62,6 +63,8 @@ namespace Data.Resources.Scenario.Loader
                 index++;
             }
             newEntity.Set<MapUnitPositions>(new MapUnitPositions { Positions = unitPositions, UnitIds = unitIds });
+
+            return newEntity;
         }
     }
 }

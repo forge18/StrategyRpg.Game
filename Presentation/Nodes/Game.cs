@@ -1,13 +1,19 @@
+using System;
 using DefaultEcs.System;
 using Godot;
-using Infrastructure.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.MediatorNS;
 
 public partial class Game : Node
 {
-    private static readonly ServiceProvider _serviceProvider = new ContainerBuilder().Build();
-
+    private readonly IMediator _mediator;
     private static ISystem<float> _systems;
+
+    // Empty constructor for Godot Engine
+    private Game() { }
+    public Game(IMediator mediator)
+    {
+        _mediator = mediator;
+    }
 
     public override void _Ready()
     {

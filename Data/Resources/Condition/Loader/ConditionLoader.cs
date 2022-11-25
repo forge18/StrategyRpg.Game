@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.Condition.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(ConditionSchema schema)
+        public Entity MapDataToEntity(ConditionSchema schema)
         {
-            if (schema == null || schema.DataId == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsCondition>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.Condition });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
 
             newEntity.Set<ComparisonOperator>(new ComparisonOperator() { Value = schema.ComparisonOperator });
@@ -29,6 +30,8 @@ namespace Data.Resources.Condition.Loader
 
             if (schema.CustomValue != null)
                 newEntity.Set<CustomValue>(new CustomValue() { Value = schema.CustomValue });
+
+            return newEntity;
         }
     }
 }

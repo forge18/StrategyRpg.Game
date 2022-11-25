@@ -11,6 +11,11 @@ namespace Infrastructure.MediatorNS.QueryManagement
             _queryFactory = queryFactory;
         }
 
+        public EmptyQuery EmptyQuery()
+        {
+            return new EmptyQuery();
+        }
+
         public IQueryHandler<IQuery> GetQuery(QueryTypeEnum queryType)
         {
             return _queryFactory.CreateInstance(queryType) as IQueryHandler<IQuery>;

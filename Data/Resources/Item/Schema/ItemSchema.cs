@@ -31,19 +31,19 @@ namespace Data.Resources
             foreach (var effect in EffectsOnTarget)
             {
                 var effectItem = (EffectSchema)effect;
-                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.EFFECT);
+                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.Effect);
             }
 
             foreach (var effect in EffectsOnSelf)
             {
                 var effectItem = (EffectSchema)effect;
-                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.EFFECT);
+                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.Effect);
             }
 
             if (this.UnlockableAbility != null)
             {
                 var ability = (AbilitySchema)this.UnlockableAbility;
-                dependencies.Add(ability.ResourceName, SchemaTypeEnum.ABILITY);
+                dependencies.Add(ability.ResourceName, SchemaTypeEnum.Ability);
             }
 
             return dependencies;

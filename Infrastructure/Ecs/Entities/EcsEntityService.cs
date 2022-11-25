@@ -1,6 +1,9 @@
 using System;
 using System.Collections.Generic;
+using Data;
 using DefaultEcs;
+using Godot;
+using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Queries;
 using Infrastructure.Ecs.Worlds;
 
@@ -10,19 +13,25 @@ namespace Infrastructure.Ecs.Entities
     {
         private readonly IEcsWorldService _ecsWorldService;
         private readonly IEcsQueryService _ecsQueryService;
+        private readonly IEcsDataLoader _ecsDataLoader;
 
-        public EcsEntityService(IEcsWorldService ecsWorldService, IEcsQueryService ecsQueryService)
+        public EcsEntityService(IEcsWorldService ecsWorldService, IEcsQueryService ecsQueryService, IEcsDataLoader ecsDataLoader)
         {
             _ecsWorldService = ecsWorldService;
             _ecsQueryService = ecsQueryService;
+            _ecsDataLoader = ecsDataLoader;
+
+            TestEntitySetup();
         }
 
         public void TestEntitySetup()
         {
-            // var newEntity = LoadEntity(DataCategoryEnum.Unit, "Godette");
-            // newEntity.Set<CurrentPosition>(new CurrentPosition { Value = new Vector2(0, 0) });
-            // newEntity.Set<NeedToRender>();
-            // newEntity.Set<IsPlayerEntity>();
+            var newEntity = _ecsDataLoader.LoadResource(SchemaTypeEnum.Unit, "Godette");
+            newEntity.Set<CurrentPosition>(new CurrentPosition { Value = new Vector2(0, 0) });
+            newEntity.Set<NeedToRender>();
+            newEntity.Set<IsPlayerEntity>();
+
+            GD.Print("tadah!");
         }
 
         public Entity CreateEntityInWorld(string worldName = "default")

@@ -29,13 +29,13 @@ namespace Data.Resources
             foreach (var condition in Conditions)
             {
                 var conditionItem = (ConditionSchema)condition;
-                dependencies.Add(conditionItem.ResourceName, SchemaTypeEnum.CONDITION);
+                dependencies.Add(conditionItem.ResourceName, SchemaTypeEnum.Condition);
             }
 
             foreach (var effect in Effects)
             {
                 var effectItem = (EffectSchema)effect;
-                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.EFFECT);
+                dependencies.Add(effectItem.ResourceName, SchemaTypeEnum.Effect);
             }
 
             return dependencies;

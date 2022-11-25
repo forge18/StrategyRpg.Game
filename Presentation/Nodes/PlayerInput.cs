@@ -6,7 +6,7 @@ using Infrastructure.MediatorNS.EventManagement.Events;
 
 namespace Presentation.Nodes
 {
-    public partial class Input : Node
+    public partial class PlayerInput : Node
     {
         private IMediator _mediator;
 
@@ -20,7 +20,9 @@ namespace Presentation.Nodes
             { InputButtonsEnum.Back, false }
         };
 
-        public void Init(IMediator mediator)
+        private PlayerInput() { }
+
+        public PlayerInput(IMediator mediator)
         {
             _mediator = mediator;
         }
@@ -46,6 +48,7 @@ namespace Presentation.Nodes
             {
                 ButtonStatus = _buttonStatus
             };
+
             _mediator.NotifyOfEvent(EventTypeEnum.InputUpdated, (IEvent)buttonData);
         }
     }

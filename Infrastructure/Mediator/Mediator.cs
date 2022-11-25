@@ -41,8 +41,9 @@ namespace Infrastructure.MediatorNS
         }
 
         // Query Management
-        public IQueryResult RunQuery(QueryTypeEnum queryType, IQuery queryData)
+        public IQueryResult RunQuery(QueryTypeEnum queryType, IQuery queryData = null)
         {
+            var data = queryData != null ? queryData : _queryMediator.EmptyQuery();
             return (IQueryResult)_queryMediator.RunQuery(queryType, queryData);
         }
     }

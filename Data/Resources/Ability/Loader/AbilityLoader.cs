@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.Ability.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(AbilitySchema schema)
+        public Entity MapDataToEntity(AbilitySchema schema)
         {
-            if (schema == null || schema.DataId == null || schema.Name == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null || schema.Name == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsAbility>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.Ability });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
             newEntity.Set<Name>(new Name() { Value = schema.Name });
 
@@ -41,6 +42,8 @@ namespace Data.Resources.Ability.Loader
 
             if (schema.Tags.Count > 0)
                 newEntity.Set<Tags>(new Tags() { Values = ConvertTagsArrayToSystemArray(schema.Tags) });
+
+            return newEntity;
         }
     }
 }

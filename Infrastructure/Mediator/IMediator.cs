@@ -11,6 +11,6 @@ namespace Infrastructure.MediatorNS
         void SubscribeToEvent(EventTypeEnum eventType, IEventListener eventListener);
         void UnsubscribeFromEvent(EventTypeEnum eventType, IEventListener eventListener);
         void NotifyOfEvent(EventTypeEnum eventType, IEvent eventData);
-        IQueryResult RunQuery(QueryTypeEnum queryType, IQuery queryData);
+        IQueryResult RunQuery(QueryTypeEnum queryType, IQuery queryData = null);
     }
 }

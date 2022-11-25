@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.Ability.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(EffectSchema schema)
+        public Entity MapDataToEntity(EffectSchema schema)
         {
-            if (schema == null || schema.DataId == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsEffect>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.Effect });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
 
             newEntity.Set<Cooldown>(new Cooldown() { Value = schema.Cooldown });
@@ -59,6 +60,8 @@ namespace Data.Resources.Ability.Loader
 
             if (schema.TagsToRemove.Count > 0)
                 newEntity.Set<TagsToRemove>(new TagsToRemove() { Values = ConvertTagsArrayToSystemArray(schema.TagsToRemove) });
+
+            return newEntity;
         }
     }
 }

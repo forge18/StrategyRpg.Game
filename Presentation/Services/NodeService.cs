@@ -5,10 +5,10 @@ namespace Presentation.Services
 {
     public class NodeService : INodeService
     {
-        private readonly NodeLocatorService _nodeLocatorService;
+        private readonly INodeLocatorService _nodeLocatorService;
         private Node _rootNode;
 
-        public NodeService(NodeLocatorService nodeLocatorService)
+        public NodeService(INodeLocatorService nodeLocatorService)
         {
             _nodeLocatorService = nodeLocatorService;
             _rootNode = _nodeLocatorService.GetNodeByKey("root");

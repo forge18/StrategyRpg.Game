@@ -2,8 +2,10 @@
     "cSpell.words": [
         "appsettings",
         "Autoload",
+        "Bootstrapper",
         "Cqrs",
         "eventbus",
+        "Godette",
         "libc",
         "Mediat",
         "Serilog",

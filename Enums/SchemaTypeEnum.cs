@@ -1,14 +1,14 @@
 public enum SchemaTypeEnum
 {
-    ABILITY,
-    CONDITION,
-    EFFECT,
-    EVENT,
-    ITEM,
-    MAP,
-    MAP_EVENT,
-    OBJECTIVE,
-    SCENARIO,
-    UNIT,
-    UNIT_TYPE
+    Ability,
+    Condition,
+    Effect,
+    Event,
+    Item,
+    Map,
+    MapEvent,
+    Objective,
+    Scenario,
+    Unit,
+    UnitType
 }

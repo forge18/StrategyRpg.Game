@@ -37,43 +37,43 @@ namespace Data.Resources
             if (this.WeaponSlot != null)
             {
                 var weaponSlot = (ItemSchema)this.WeaponSlot;
-                dependencies.Add(weaponSlot.ResourceName, SchemaTypeEnum.ITEM);
+                dependencies.Add(weaponSlot.ResourceName, SchemaTypeEnum.Item);
             }
 
             if (this.ArmorSlot != null)
             {
                 var armorSlot = (ItemSchema)this.ArmorSlot;
-                dependencies.Add(armorSlot.ResourceName, SchemaTypeEnum.ITEM);
+                dependencies.Add(armorSlot.ResourceName, SchemaTypeEnum.Item);
             }
 
             if (this.AccessorySlot != null)
             {
                 var accessorySlot = (ItemSchema)this.AccessorySlot;
-                dependencies.Add(accessorySlot.ResourceName, SchemaTypeEnum.ITEM);
+                dependencies.Add(accessorySlot.ResourceName, SchemaTypeEnum.Item);
             }
 
             foreach (var item in Inventory)
             {
                 var inventoryItem = (ItemSchema)item;
-                dependencies.Add(inventoryItem.ResourceName, SchemaTypeEnum.ITEM);
+                dependencies.Add(inventoryItem.ResourceName, SchemaTypeEnum.Item);
             }
 
             foreach (var ability in ActiveAbilities)
             {
                 var activeAbility = (AbilitySchema)ability;
-                dependencies.Add(activeAbility.ResourceName, SchemaTypeEnum.ABILITY);
+                dependencies.Add(activeAbility.ResourceName, SchemaTypeEnum.Ability);
             }
 
             foreach (var ability in PassiveAbilities)
             {
                 var passiveAbility = (AbilitySchema)ability;
-                dependencies.Add(passiveAbility.ResourceName, SchemaTypeEnum.ABILITY);
+                dependencies.Add(passiveAbility.ResourceName, SchemaTypeEnum.Ability);
             }
 
             foreach (var ability in UnslottedAbilities)
             {
                 var unslottedAbility = (AbilitySchema)ability;
-                dependencies.Add(unslottedAbility.ResourceName, SchemaTypeEnum.ABILITY);
+                dependencies.Add(unslottedAbility.ResourceName, SchemaTypeEnum.Ability);
             }
 
             return dependencies;

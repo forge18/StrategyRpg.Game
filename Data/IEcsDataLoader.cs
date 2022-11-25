@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using Data.Resources;
+using DefaultEcs;
 
 namespace Data
 {
     public interface IEcsDataLoader
     {
-        void LoadResource<TSchema>(TSchema schema, string resourceName) where TSchema : IBaseSchema;
+        Entity LoadResource(SchemaTypeEnum schema, string resourceName);
         void LoadDependencies(Dictionary<string, SchemaTypeEnum> dependencies);
     }
 }

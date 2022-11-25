@@ -27,24 +27,24 @@ namespace Data.Resources
             var dependencies = new System.Collections.Generic.Dictionary<string, SchemaTypeEnum>();
 
             var mapItem = (MapSchema)Map;
-            dependencies.Add(mapItem.ResourceName, SchemaTypeEnum.MAP);
+            dependencies.Add(mapItem.ResourceName, SchemaTypeEnum.Map);
 
             foreach (var objective in Objectives)
             {
                 var objectiveItem = (ObjectiveSchema)objective;
-                dependencies.Add(objectiveItem.ResourceName, SchemaTypeEnum.OBJECTIVE);
+                dependencies.Add(objectiveItem.ResourceName, SchemaTypeEnum.Objective);
             }
 
             foreach (var mapEvent in MapEvents)
             {
                 var mapEventItem = (MapEventSchema)mapEvent;
-                dependencies.Add(mapEventItem.ResourceName, SchemaTypeEnum.MAP_EVENT);
+                dependencies.Add(mapEventItem.ResourceName, SchemaTypeEnum.MapEvent);
             }
 
             foreach (var unitPosition in UnitPositions)
             {
                 var unit = (UnitSchema)unitPosition.Value;
-                dependencies.Add(unit.ResourceName, SchemaTypeEnum.UNIT);
+                dependencies.Add(unit.ResourceName, SchemaTypeEnum.Unit);
 
             }
 

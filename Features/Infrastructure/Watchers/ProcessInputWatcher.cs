@@ -3,6 +3,7 @@ using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Worlds;
+using Infrastructure.MediatorNS;
 using Infrastructure.MediatorNS.EventManagement;
 using Infrastructure.MediatorNS.EventManagement.Events;
 
@@ -10,17 +11,17 @@ namespace Features.Infrastructure.Watchers
 {
     public class ProcessInputWatcher : Watcher, IEventListener
     {
-        private readonly IEventMediator _eventMediator;
+        private readonly IMediator _mediator;
 
         private readonly World _world;
         private Dictionary<InputButtonsEnum, bool> _inputButtons;
 
-        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IEventMediator eventMediator)
+        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IMediator mediator)
         {
             _world = ecsWorldService.GetWorld();
-            _eventMediator = eventMediator;
+            _mediator = mediator;
 
-            _eventMediator.Subscribe(EventTypeEnum.InputUpdated, this);
+            _mediator.SubscribeToEvent(EventTypeEnum.InputUpdated, this);
         }
 
         public override void Update(float elapsedTime)

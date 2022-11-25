@@ -21,7 +21,7 @@ namespace Data.Resources
             var dependencies = new Dictionary<string, SchemaTypeEnum>();
 
             var type = (UnitTypeSchema)this.Type;
-            dependencies.Add(type.ResourceName, SchemaTypeEnum.UNIT_TYPE);
+            dependencies.Add(type.ResourceName, SchemaTypeEnum.UnitType);
 
             return dependencies;
         }

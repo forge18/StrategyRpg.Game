@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.MapEvent.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(MapEventSchema schema)
+        public Entity MapDataToEntity(MapEventSchema schema)
         {
-            if (schema == null || schema.DataId == null || schema.Name == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null || schema.Name == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsMapEvent>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.MapEvent });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
             newEntity.Set<Name>(new Name() { Value = schema.Name });
 
@@ -43,6 +44,8 @@ namespace Data.Resources.MapEvent.Loader
             {
                 newEntity.Set<TargetPosition>(new TargetPosition { Value = schema.Coordinates });
             }
+
+            return newEntity;
         }
     }
 }

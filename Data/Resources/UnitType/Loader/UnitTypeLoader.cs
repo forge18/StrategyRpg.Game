@@ -1,3 +1,4 @@
+using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 
@@ -12,15 +13,15 @@ namespace Data.Resources.UnitType.Loader
             _ecsEntityService = ecsEntityService;
         }
 
-        public void MapDataToEntity(UnitTypeSchema schema)
+        public Entity MapDataToEntity(UnitTypeSchema schema)
         {
-            if (schema == null || schema.DataId == null || schema.Name == null) return;
-            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return;
+            if (schema == null || schema.DataId == null || schema.Name == null) return default;
+            if (_ecsEntityService.HasSchemaIdInWorld(schema.DataId)) return default;
 
             var newEntity = _ecsEntityService.CreateEntityInWorld();
 
             newEntity.Set<IsUnitType>();
-            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.ABILITY });
+            newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.UnitType });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
             newEntity.Set<Name>(new Name() { Value = schema.Name });
 
@@ -104,6 +105,8 @@ namespace Data.Resources.UnitType.Loader
                     Values = ConvertResourcesToDataIdArray(schema.UnslottedAbilities)
                 });
             }
+
+            return newEntity;
         }
     }
 }

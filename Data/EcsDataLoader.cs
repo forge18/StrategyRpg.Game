@@ -9,6 +9,7 @@ using Data.Resources.Objective.Loader;
 using Data.Resources.Scenario.Loader;
 using Data.Resources.Unit.Loader;
 using Data.Resources.UnitType.Loader;
+using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs.Entities;
 using Infrastructure.Ecs.Queries;
@@ -20,19 +21,19 @@ namespace Data
         private IEcsEntityService _ecsEntityService;
         private IEcsQueryService _ecsQueryService;
 
-        private Dictionary<string, string> _schemaPaths = new Dictionary<string, string>()
+        private Dictionary<SchemaTypeEnum, string> _schemaPaths = new Dictionary<SchemaTypeEnum, string>()
     {
-        { "AbilitySchema", "res://Data/Resources/Ability" },
-        { "ConditionSchema", "res://Data/Resources/Condition" },
-        { "EffectSchema", "res://Data/Resources/Effect" },
-        { "EventSchema", "res://Data/Resources/Event" },
-        { "ItemSchema", "res://Data/Resources/Item" },
-        { "MapSchema", "res://Data/Resources/Map" },
-        { "MapEventSchema", "res://Data/Resources/MapEvent" },
-        { "ObjectiveSchema", "res://Data/Resources/Objective" },
-        { "ScenarioSchema", "res://Data/Resources/Scenario" },
-        { "UnitSchema", "res://Data/Resources/Unit" },
-        { "UnitTypeSchema", "res://Data/Resources/UnitType" }
+        { SchemaTypeEnum.Ability, "res://Data/Resources/Ability" },
+        { SchemaTypeEnum.Condition, "res://Data/Resources/Condition" },
+        { SchemaTypeEnum.Effect, "res://Data/Resources/Effect" },
+        { SchemaTypeEnum.Event, "res://Data/Resources/Event" },
+        { SchemaTypeEnum.Item, "res://Data/Resources/Item" },
+        { SchemaTypeEnum.Map, "res://Data/Resources/Map" },
+        { SchemaTypeEnum.MapEvent, "res://Data/Resources/MapEvent" },
+        { SchemaTypeEnum.Objective, "res://Data/Resources/Objective" },
+        { SchemaTypeEnum.Scenario, "res://Data/Resources/Scenario" },
+        { SchemaTypeEnum.Unit, "res://Data/Resources/Unit" },
+        { SchemaTypeEnum.UnitType, "res://Data/Resources/UnitType" }
     };
 
         public EcsDataLoader(IEcsEntityService ecsEntityService, IEcsQueryService ecsQueryService)
@@ -41,9 +42,9 @@ namespace Data
             _ecsQueryService = ecsQueryService;
         }
 
-        public void LoadResource<TSchema>(TSchema schema, string resourceName) where TSchema : IBaseSchema
+        public Entity LoadResource(SchemaTypeEnum schema, string resourceName)
         {
-            var filepath = _schemaPaths[schema.GetType().Name] + "/" + resourceName + ".tres";
+            var filepath = _schemaPaths[schema] + "/" + resourceName + ".tres";
             var resource = ResourceLoader.Load<IBaseSchema>(filepath);
             var dependencies = resource.GetDependencies();
 
@@ -51,41 +52,30 @@ namespace Data
 
             switch (schema)
             {
-                case AbilitySchema abilitySchema:
-                    new AbilityLoader(_ecsEntityService).MapDataToEntity(abilitySchema);
-                    break;
-                case ConditionSchema conditionSchema:
-                    new ConditionLoader(_ecsEntityService).MapDataToEntity(conditionSchema);
-                    break;
-                case EffectSchema effectSchema:
-                    new EffectLoader(_ecsEntityService).MapDataToEntity(effectSchema);
-                    break;
-                case EventSchema eventSchema:
-                    new EventLoader(_ecsEntityService).MapDataToEntity(eventSchema);
-                    break;
-                case ItemSchema itemSchema:
-                    new ItemLoader(_ecsEntityService).MapDataToEntity(itemSchema);
-                    break;
-                case MapSchema mapSchema:
-                    new MapLoader(_ecsEntityService).MapDataToEntity(mapSchema);
-                    break;
-                case MapEventSchema mapEventSchema:
-                    new MapEventLoader(_ecsEntityService).MapDataToEntity(mapEventSchema);
-                    break;
-                case ObjectiveSchema objectiveSchema:
-                    new ObjectiveLoader(_ecsEntityService).MapDataToEntity(objectiveSchema);
-                    break;
-                case ScenarioSchema scenarioSchema:
-                    new ScenarioLoader(_ecsEntityService).MapDataToEntity(scenarioSchema);
-                    break;
-                case UnitSchema unitSchema:
-                    new UnitLoader(_ecsEntityService).MapDataToEntity(unitSchema);
-                    break;
-                case UnitTypeSchema unitTypeSchema:
-                    new UnitTypeLoader(_ecsEntityService).MapDataToEntity(unitTypeSchema);
-                    break;
+                case SchemaTypeEnum.Ability:
+                    return new AbilityLoader(_ecsEntityService).MapDataToEntity((AbilitySchema)resource);
+                case SchemaTypeEnum.Condition:
+                    return new ConditionLoader(_ecsEntityService).MapDataToEntity((ConditionSchema)resource);
+                case SchemaTypeEnum.Effect:
+                    return new EffectLoader(_ecsEntityService).MapDataToEntity((EffectSchema)resource);
+                case SchemaTypeEnum.Event:
+                    return new EventLoader(_ecsEntityService).MapDataToEntity((EventSchema)resource);
+                case SchemaTypeEnum.Item:
+                    return new ItemLoader(_ecsEntityService).MapDataToEntity((ItemSchema)resource);
+                case SchemaTypeEnum.Map:
+                    return new MapLoader(_ecsEntityService).MapDataToEntity((MapSchema)resource);
+                case SchemaTypeEnum.MapEvent:
+                    return new MapEventLoader(_ecsEntityService).MapDataToEntity((MapEventSchema)resource);
+                case SchemaTypeEnum.Objective:
+                    return new ObjectiveLoader(_ecsEntityService).MapDataToEntity((ObjectiveSchema)resource);
+                case SchemaTypeEnum.Scenario:
+                    return new ScenarioLoader(_ecsEntityService).MapDataToEntity((ScenarioSchema)resource);
+                case SchemaTypeEnum.Unit:
+                    return new UnitLoader(_ecsEntityService).MapDataToEntity((UnitSchema)resource);
+                case SchemaTypeEnum.UnitType:
+                    return new UnitTypeLoader(_ecsEntityService).MapDataToEntity((UnitTypeSchema)resource);
                 default:
-                    return;
+                    return default;
             }
         }
 
@@ -96,60 +86,60 @@ namespace Data
 
                 switch (schemaType)
                 {
-                    case SchemaTypeEnum.ABILITY:
+                    case SchemaTypeEnum.Ability:
                         var abilityFilepath = "res://Models/Data/Ability/" + resourceName + ".tres";
                         AbilitySchema abilitySchema = ResourceLoader.Load<AbilitySchema>(abilityFilepath);
-                        LoadResource(abilitySchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Ability, resourceName);
                         break;
-                    case SchemaTypeEnum.CONDITION:
+                    case SchemaTypeEnum.Condition:
                         var conditionFilepath = "res://Models/Data/Condition/" + resourceName + ".tres";
                         ConditionSchema conditionSchema = ResourceLoader.Load<ConditionSchema>(conditionFilepath);
-                        LoadResource(conditionSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Condition, resourceName);
                         break;
-                    case SchemaTypeEnum.EFFECT:
+                    case SchemaTypeEnum.Effect:
                         var effectFilepath = "res://Models/Data/Effect/" + resourceName + ".tres";
                         EffectSchema effectSchema = ResourceLoader.Load<EffectSchema>(effectFilepath);
-                        LoadResource(effectSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Effect, resourceName);
                         break;
-                    case SchemaTypeEnum.EVENT:
+                    case SchemaTypeEnum.Event:
                         var eventFilepath = "res://Models/Data/Event/" + resourceName + ".tres";
                         EventSchema eventSchema = ResourceLoader.Load<EventSchema>(eventFilepath);
-                        LoadResource(eventSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Event, resourceName);
                         break;
-                    case SchemaTypeEnum.ITEM:
+                    case SchemaTypeEnum.Item:
                         var itemFilepath = "res://Models/Data/Item/" + resourceName + ".tres";
                         ItemSchema itemSchema = ResourceLoader.Load<ItemSchema>(itemFilepath);
-                        LoadResource(itemSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Item, resourceName);
                         break;
-                    case SchemaTypeEnum.MAP:
+                    case SchemaTypeEnum.Map:
                         var mapFilepath = "res://Models/Data/Map/" + resourceName + ".tres";
                         MapSchema mapSchema = ResourceLoader.Load<MapSchema>(mapFilepath);
-                        LoadResource(mapSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Map, resourceName);
                         break;
-                    case SchemaTypeEnum.MAP_EVENT:
+                    case SchemaTypeEnum.MapEvent:
                         var mapEventFilepath = "res://Models/Data/MapEvent/" + resourceName + ".tres";
                         MapEventSchema mapEventSchema = ResourceLoader.Load<MapEventSchema>(mapEventFilepath);
-                        LoadResource(mapEventSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.MapEvent, resourceName);
                         break;
-                    case SchemaTypeEnum.OBJECTIVE:
+                    case SchemaTypeEnum.Objective:
                         var objectiveFilepath = "res://Models/Data/Objective/" + resourceName + ".tres";
                         ObjectiveSchema objectiveSchema = ResourceLoader.Load<ObjectiveSchema>(objectiveFilepath);
-                        LoadResource(objectiveSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Objective, resourceName);
                         break;
-                    case SchemaTypeEnum.SCENARIO:
+                    case SchemaTypeEnum.Scenario:
                         var scenarioFilepath = "res://Models/Data/Scenario/" + resourceName + ".tres";
                         ScenarioSchema scenarioSchema = ResourceLoader.Load<ScenarioSchema>(scenarioFilepath);
-                        LoadResource(scenarioSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Scenario, resourceName);
                         break;
-                    case SchemaTypeEnum.UNIT:
+                    case SchemaTypeEnum.Unit:
                         var unitFilepath = "res://Models/Data/Unit/" + resourceName + ".tres";
                         UnitSchema unitSchema = ResourceLoader.Load<UnitSchema>(unitFilepath);
-                        LoadResource(unitSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.Unit, resourceName);
                         break;
-                    case SchemaTypeEnum.UNIT_TYPE:
+                    case SchemaTypeEnum.UnitType:
                         var unitTypeFilepath = "res://Models/Data/UnitType/" + resourceName + ".tres";
                         UnitTypeSchema unitTypeSchema = ResourceLoader.Load<UnitTypeSchema>(unitTypeFilepath);
-                        LoadResource(unitTypeSchema, resourceName);
+                        LoadResource(SchemaTypeEnum.UnitType, resourceName);
                         break;
                     default:
                         throw new Exception("Invalid DataCategoryEnum");
