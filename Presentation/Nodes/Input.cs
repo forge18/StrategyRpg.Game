@@ -1,15 +1,14 @@
-using System;
 using System.Collections.Generic;
 using Godot;
-using Infrastructure.EventManagement;
-using Infrastructure.EventManagement.Events;
-using Infrastructure.EventManagement.Events.InputUpdated;
+using Infrastructure.MediatorNS;
+using Infrastructure.MediatorNS.EventManagement;
+using Infrastructure.MediatorNS.EventManagement.Events;
 
 namespace Presentation.Nodes
 {
     public partial class Input : Node
     {
-        private IEventService _eventService;
+        private IMediator _mediator;
 
         private Dictionary<InputButtonsEnum, bool> _buttonStatus = new Dictionary<InputButtonsEnum, bool>
         {
@@ -21,9 +20,9 @@ namespace Presentation.Nodes
             { InputButtonsEnum.Back, false }
         };
 
-        public void Init(IEventService eventService)
+        public void Init(IMediator mediator)
         {
-            _eventService = eventService;
+            _mediator = mediator;
         }
 
         public override void _Input(InputEvent inputEvent)
@@ -43,8 +42,11 @@ namespace Presentation.Nodes
 
             _buttonStatus[InputButtonsEnum.Left] = Godot.Input.IsActionPressed("Left");
 
-            var buttonData = new InputUpdatedContract(_buttonStatus);
-            _eventService.Publish<InputUpdatedContract>(new InputUpdatedEvent(), buttonData);
+            var buttonData = new InputUpdatedEvent()
+            {
+                ButtonStatus = _buttonStatus
+            };
+            _mediator.NotifyOfEvent(EventTypeEnum.InputUpdated, (IEvent)buttonData);
         }
     }
 }

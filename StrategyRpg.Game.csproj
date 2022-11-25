@@ -6,17 +6,6 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="DefaultEcs" Version="0.17.2" />
-    <PackageReference Include="LiteBus" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Commands" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Commands.Abstractions" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Commands.Extensions.MicrosoftDependencyInjection" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Events" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Events.Abstractions" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Events.Extensions.MicrosoftDependencyInjection" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Extensions.MicrosoftDependencyInjection" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Queries" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Queries.Abstractions" Version="0.13.0" />
-    <PackageReference Include="LiteBus.Queries.Extensions.MicrosoftDependencyInjection" Version="0.13.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />

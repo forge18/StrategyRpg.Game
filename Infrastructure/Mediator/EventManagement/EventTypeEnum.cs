@@ -1,4 +1,4 @@
-namespace Infrastructure.EventManagement
+namespace Infrastructure.MediatorNS.EventManagement
 {
     public enum EventTypeEnum
     {

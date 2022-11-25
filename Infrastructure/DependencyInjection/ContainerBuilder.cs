@@ -1,16 +1,14 @@
-using System.Reflection;
 using Data;
-using Infrastructure.Commands;
 using Infrastructure.Ecs.Entities;
 using Infrastructure.Ecs.Queries;
 using Infrastructure.Ecs.Systems;
 using Infrastructure.Ecs.Worlds;
-using Infrastructure.EventManagement;
 using Infrastructure.Logging;
-using LiteBus.Commands.Extensions.MicrosoftDependencyInjection;
-using LiteBus.Events.Extensions.MicrosoftDependencyInjection;
-using LiteBus.Messaging.Extensions.MicrosoftDependencyInjection;
-using LiteBus.Queries.Extensions.MicrosoftDependencyInjection;
+using Infrastructure.MediatorNS.CommandManagement;
+using Infrastructure.MediatorNS.EventManagement;
+using Infrastructure.MediatorNS.QueryManagement;
+using Infrastructure.MediatorNS.QueryManagement.Queries;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Services;
 using Serilog;
@@ -24,7 +22,11 @@ namespace Infrastructure.DependencyInjection
             var container = new ServiceCollection();
 
             container = AddServicesToCollection(container);
-            container = AddLiteBusToCollection(container);
+            container = AddFactoriesToCollection(container);
+            container = AddCommandsToCollection(container);
+            container = AddEventsToCollection(container);
+            container = AddQueriesToCollection(container);
+            container = AddMediatorToCollection(container);
             container = AddLoggingToCollection(container);
 
             return container.BuildServiceProvider();
@@ -32,7 +34,6 @@ namespace Infrastructure.DependencyInjection
 
         public ServiceCollection AddServicesToCollection(ServiceCollection container)
         {
-            container.AddSingleton<ICommandService, CommandService>();
             container.AddSingleton<IEcsEntityService, EcsEntityService>(
                 provider => new EcsEntityService(
                     provider.GetService<IEcsWorldService>(),
@@ -52,31 +53,46 @@ namespace Infrastructure.DependencyInjection
             );
             container.AddSingleton<IEcsSystemService, EcsSystemService>();
             container.AddSingleton<IEcsWorldService, EcsWorldService>();
-            container.AddSingleton<IEventService, EventService>();
             container.AddSingleton<INodeLocatorService, NodeLocatorService>();
             container.AddSingleton<INodeService, NodeService>();
+
+            return container;
+        }
+
+        public ServiceCollection AddFactoriesToCollection(ServiceCollection container)
+        {
+            container.AddTransient<ICommandFactory, CommandFactory>();
+            container.AddTransient<IEventFactory, EventFactory>();
+            container.AddTransient<IQueryFactory, QueryFactory>();
+
+            return container;
+        }
+
+        public ServiceCollection AddCommandsToCollection(ServiceCollection container)
+        {
 
 
             return container;
         }
 
-        private ServiceCollection AddLiteBusToCollection(ServiceCollection container)
+        public ServiceCollection AddEventsToCollection(ServiceCollection container)
         {
-            container.AddLiteBus(builder =>
-                builder
-                    .AddCommands(commandBuilder =>
-                    {
-                        commandBuilder.RegisterFrom(typeof(Game).Assembly);
-                    })
-                    .AddEvents(eventBuilder =>
-                    {
-                        eventBuilder.RegisterFrom(typeof(Game).Assembly);
-                    })
-                    .AddQueries(queryBuilder =>
-                    {
-                        queryBuilder.RegisterFrom(typeof(Game).Assembly);
-                    })
-            );
+            return container;
+        }
+
+        public ServiceCollection AddQueriesToCollection(ServiceCollection container)
+        {
+            container.AddTransient<IQueryHandler<GetEntitiesToRenderQuery>, GetEntitiesToRenderHandler>();
+
+            return container;
+        }
+
+        public ServiceCollection AddMediatorToCollection(ServiceCollection container)
+        {
+            container.AddSingleton<ICommandMediator, CommandMediator>();
+            container.AddSingleton<IEventMediator, EventMediator>();
+            container.AddSingleton<IQueryMediator, QueryMediator>();
+            container.AddSingleton<IMediator, Mediator>();
 
             return container;
         }

@@ -1,27 +1,26 @@
-using System;
 using System.Collections.Generic;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Worlds;
-using Infrastructure.EventManagement;
-using Infrastructure.EventManagement.Events.InputUpdated;
+using Infrastructure.MediatorNS.EventManagement;
+using Infrastructure.MediatorNS.EventManagement.Events;
 
 namespace Features.Infrastructure.Watchers
 {
-    public class ProcessInputWatcher : Watcher, ISubscriber
+    public class ProcessInputWatcher : Watcher, IEventListener
     {
+        private readonly IEventMediator _eventMediator;
+
         private readonly World _world;
-        private readonly IEventService _eventService;
         private Dictionary<InputButtonsEnum, bool> _inputButtons;
 
-        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IEventService eventService)
+        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IEventMediator eventMediator)
         {
             _world = ecsWorldService.GetWorld();
-            _eventService = eventService;
+            _eventMediator = eventMediator;
 
-            Action<InputUpdatedContract> callback = delegate (InputUpdatedContract contract) { OnInputUpdated(contract); };
-            _eventService.Subscribe<InputUpdatedContract>(EventTypeEnum.InputUpdated, this, (Action<IContract>)callback);
+            _eventMediator.Subscribe(EventTypeEnum.InputUpdated, this);
         }
 
         public override void Update(float elapsedTime)
@@ -68,9 +67,12 @@ namespace Features.Infrastructure.Watchers
                 _world.Remove<UpKey>();
         }
 
-        public static void OnInputUpdated(InputUpdatedContract data)
+        public void OnEvent(EventTypeEnum eventType, IEvent contract)
         {
-
+            if (eventType == EventTypeEnum.InputUpdated)
+            {
+                _inputButtons = ((InputUpdatedEvent)contract).ButtonStatus;
+            }
         }
     }
 }

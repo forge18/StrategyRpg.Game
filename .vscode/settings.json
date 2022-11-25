@@ -5,6 +5,7 @@
         "Cqrs",
         "eventbus",
         "libc",
+        "Mediat",
         "Serilog",
         "Unlockable",
         "Unslotted"
