@@ -18,7 +18,6 @@ namespace Infrastructure.DependencyInjection
         private static readonly ServiceProvider _container = new ContainerBuilder().Build();
 
         private IServiceProvider _serviceProvider;
-
         private IEcsEntityService _ecsEntitiesService;
         private IEcsQueryService _ecsQueryService;
         private IEcsWorldService _ecsWorldService;
@@ -34,6 +33,7 @@ namespace Infrastructure.DependencyInjection
             _gameRootNode = gameRootNode;
 
             LoadRequiredServices();
+            RegisterWatchers();
         }
 
         public void LoadRequiredServices()
@@ -42,7 +42,7 @@ namespace Infrastructure.DependencyInjection
             _ecsEntitiesService = _serviceProvider.GetService<IEcsEntityService>();
             _ecsQueryService = _serviceProvider.GetService<IEcsQueryService>();
             _ecsWorldService = _serviceProvider.GetService<IEcsWorldService>();
-            _mediator = _serviceProvider.GetRequiredService<IMediator>();
+            _mediator = _serviceProvider.GetService<IMediator>();
             _nodeLocatorService = _serviceProvider.GetService<INodeLocatorService>();
         }
 
