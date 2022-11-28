@@ -1,12 +1,17 @@
-
-
 using System.Threading;
+
 using System.Threading.Tasks;
+
 using DefaultEcs;
+
 using Godot;
+
 using Infrastructure.Ecs.Components;
+
 using Infrastructure.Ecs.Entities;
-using Infrastructure.MediatorNS.CommandManagement;
+
+using Infrastructure.Hub.CommandManagement;
+
 using Presentation.Services;
 
 namespace Features.Exploration.Unit.Commands.MovePlayer
@@ -16,8 +21,8 @@ namespace Features.Exploration.Unit.Commands.MovePlayer
         public Entity PlayerEntity { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public readonly INodeLocatorService nodeLocatorService;
-        public readonly IEcsEntityService ecsEntityService;
+        public INodeLocatorService nodeLocatorService { get; set; }
+        public IEcsEntityService ecsEntityService { get; set; }
 
         public MovePlayerCommand(INodeLocatorService nodeLocatorService, IEcsEntityService ecsEntityService)
         {
@@ -26,10 +31,16 @@ namespace Features.Exploration.Unit.Commands.MovePlayer
         }
     }
 
-    public class MovePlayerHandler : ICommandHandler<MovePlayerCommand>
+    public class MovePlayerHandler : ICommandHandler
     {
-        public Task Handle(MovePlayerCommand command, CancellationToken cancellationToken = default)
+        public CommandTypeEnum GetEnum()
         {
+            return CommandTypeEnum.MovePlayer;
+        }
+
+        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        {
+            var command = genericCommand as MovePlayerCommand;
             var entityId = command.ecsEntityService.ParseEntityId(command.PlayerEntity);
 
             CharacterBody2D body = (CharacterBody2D)command.nodeLocatorService.GetNodeByEntityId(entityId);

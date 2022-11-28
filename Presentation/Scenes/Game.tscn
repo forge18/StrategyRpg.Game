@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://crc86ftw87121"]
+
+[ext_resource type="Script" path="res://Presentation/Nodes/Game.cs" id="1_gyph5"]
+[ext_resource type="Script" path="res://Presentation/Nodes/PlayerInput.cs" id="2_tkmc2"]
+[ext_resource type="Script" path="res://Presentation/Nodes/Arena.cs" id="3_1qvsi"]
+
+[node name="Game" type="Node"]
+script = ExtResource("1_gyph5")
+
+[node name="Core" type="Node" parent="."]
+
+[node name="Input" type="Node" parent="Core"]
+script = ExtResource("2_tkmc2")
+
+[node name="GameLoop" type="Node" parent="Core"]
+
+[node name="Arena" type="Node" parent="."]
+script = ExtResource("3_1qvsi")

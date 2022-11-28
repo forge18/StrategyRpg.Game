@@ -1,58 +1,52 @@
 using System;
 using System.Collections.Generic;
-using Data;
 using DefaultEcs;
-using Godot;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Queries;
 using Infrastructure.Ecs.Worlds;
+using Infrastructure.Hub;
+using Infrastructure.Hub.QueryManagement;
+using Infrastructure.Hub.QueryManagement.QueriesWithParams;
 
 namespace Infrastructure.Ecs.Entities
 {
     public class EcsEntityService : IEcsEntityService
     {
+        private readonly IHubMediator _mediator;
         private readonly IEcsWorldService _ecsWorldService;
-        private readonly IEcsQueryService _ecsQueryService;
-        private readonly IEcsDataLoader _ecsDataLoader;
 
-        public EcsEntityService(IEcsWorldService ecsWorldService, IEcsQueryService ecsQueryService, IEcsDataLoader ecsDataLoader)
+        public EcsEntityService(IHubMediator mediator, IEcsWorldService ecsWorldService)
         {
+            _mediator = mediator;
             _ecsWorldService = ecsWorldService;
-            _ecsQueryService = ecsQueryService;
-            _ecsDataLoader = ecsDataLoader;
-
-            TestEntitySetup();
-        }
-
-        public void TestEntitySetup()
-        {
-            var newEntity = _ecsDataLoader.LoadResource(SchemaTypeEnum.Unit, "Godette");
-            newEntity.Set<CurrentPosition>(new CurrentPosition { Value = new Vector2(0, 0) });
-            newEntity.Set<NeedToRender>();
-            newEntity.Set<IsPlayerEntity>();
-
-            GD.Print("tadah!");
         }
 
         public Entity CreateEntityInWorld(string worldName = "default")
         {
             var world = _ecsWorldService.GetWorld(worldName);
             var entity = world.CreateEntity();
+            entity.Set<EntityId>(new EntityId { Value = ParseEntityId(entity) });
 
             return entity;
         }
 
         public Entity GetEntityInWorld(int entityId, string worldName = "default")
         {
-
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             return entity;
         }
 
         public bool HasEntityInWorld(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
             var hasEntity = entity != default;
 
             return hasEntity;
@@ -60,7 +54,11 @@ namespace Infrastructure.Ecs.Entities
 
         public bool HasSchemaIdInWorld(string key, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityBySchemaId(key, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityBySchemaId,
+                new GetEntityBySchemaIdQuery { SchemaId = key }
+            );
+            var entity = result.ConvertResultValue<Entity>();
             var hasEntity = entity != default;
 
             return hasEntity;
@@ -68,7 +66,11 @@ namespace Infrastructure.Ecs.Entities
 
         public void DestroyEntityInWorld(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Dispose();
         }
@@ -79,7 +81,11 @@ namespace Infrastructure.Ecs.Entities
 
             foreach (var entityId in entityIds)
             {
-                var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+                var result = _mediator.RunQuery(
+                    QueryTypeEnum.GetEntityByEntityId,
+                    new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                );
+                var entity = result.ConvertResultValue<Entity>();
                 entities.Add(entity);
             }
 
@@ -88,14 +94,22 @@ namespace Infrastructure.Ecs.Entities
 
         public void AddComponentToEntity<T>(int entityId, T component, string worldName = "default") where T : struct
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Set(component);
         }
 
         public T GetComponentInEntity<T>(int entityId, string worldName = "default") where T : struct
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             var component = entity.Get<T>();
 
@@ -104,7 +118,11 @@ namespace Infrastructure.Ecs.Entities
 
         public T GetComponentReferenceInEntity<T>(int entityId, string worldName = "default") where T : struct
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             ref var component = ref entity.Get<T>();
 
@@ -113,14 +131,22 @@ namespace Infrastructure.Ecs.Entities
 
         public void SetEntityComponent<T>(int entityId, T component, string worldName = "default") where T : struct
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Set(component);
         }
 
         public bool HasComponentInEntity<T>(int entityId, string worldName = "default") where T : struct
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             var hasComponent = entity.Has<T>();
 
@@ -129,28 +155,44 @@ namespace Infrastructure.Ecs.Entities
 
         public void RemoveComponentFromEntity<T>(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Remove<T>();
         }
 
         public void SetEntityEnabled(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Enable();
         }
 
         public void SetEntityDisabled(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             entity.Disable();
         }
 
         public bool IsEntityEnabled(int entityId, string worldName = "default")
         {
-            var entity = _ecsQueryService.GetEntityByEntityId(entityId, worldName);
+            var result = _mediator.RunQuery(
+                QueryTypeEnum.GetEntityByEntityId,
+                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+            );
+            var entity = result.ConvertResultValue<Entity>();
 
             return entity.IsEnabled();
         }

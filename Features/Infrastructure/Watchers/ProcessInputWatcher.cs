@@ -3,20 +3,20 @@ using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Worlds;
-using Infrastructure.MediatorNS;
-using Infrastructure.MediatorNS.EventManagement;
-using Infrastructure.MediatorNS.EventManagement.Events;
+using Infrastructure.Hub;
+using Infrastructure.Hub.EventManagement;
+using Infrastructure.Hub.EventManagement.Events;
 
 namespace Features.Infrastructure.Watchers
 {
     public class ProcessInputWatcher : Watcher, IEventListener
     {
-        private readonly IMediator _mediator;
+        private readonly IHubMediator _mediator;
 
         private readonly World _world;
         private Dictionary<InputButtonsEnum, bool> _inputButtons;
 
-        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IMediator mediator)
+        public ProcessInputWatcher(IEcsWorldService ecsWorldService, IHubMediator mediator)
         {
             _world = ecsWorldService.GetWorld();
             _mediator = mediator;

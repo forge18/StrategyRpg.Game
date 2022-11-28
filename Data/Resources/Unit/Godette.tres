@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=3 uid="uid://c5wpd5y4ti3df"]
 
-[ext_resource type="Resource" uid="uid://cwp8yaujl0qw8" path="res://Models/Data/UnitType/Knight.tres" id="1_70qel"]
-[ext_resource type="Script" path="res://Models/Schemas/UnitSchema.cs" id="2_pnfqb"]
+[ext_resource type="Resource" uid="uid://cwp8yaujl0qw8" path="res://Data/Resources/UnitType/Knight.tres" id="1_70qel"]
+[ext_resource type="Script" path="res://Data/Resources/Unit/Schema/UnitSchema.cs" id="2_pnfqb"]
 
 [resource]
 resource_name = "Godette"

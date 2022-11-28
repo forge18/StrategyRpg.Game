@@ -1,6 +1,6 @@
 [gd_resource type="Resource" load_steps=2 format=3 uid="uid://bj5stwh1c4ad6"]
 
-[ext_resource type="Script" path="res://Models/Schemas/AbilitySchema.cs" id="1_1ip0y"]
+[ext_resource type="Script" path="res://Data/Resources/Ability/Schema/AbilitySchema.cs" id="1_1ip0y"]
 
 [resource]
 resource_name = "test"

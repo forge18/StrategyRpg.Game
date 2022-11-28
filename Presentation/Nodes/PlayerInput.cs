@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using Godot;
-using Infrastructure.MediatorNS;
-using Infrastructure.MediatorNS.EventManagement;
-using Infrastructure.MediatorNS.EventManagement.Events;
+using Infrastructure.Hub;
+using Infrastructure.Hub.EventManagement;
+using Infrastructure.Hub.EventManagement.Events;
 
 namespace Presentation.Nodes
 {
     public partial class PlayerInput : Node
     {
-        private IMediator _mediator;
+        private IHubMediator _mediator;
 
         private Dictionary<InputButtonsEnum, bool> _buttonStatus = new Dictionary<InputButtonsEnum, bool>
         {
@@ -22,7 +22,7 @@ namespace Presentation.Nodes
 
         private PlayerInput() { }
 
-        public PlayerInput(IMediator mediator)
+        public PlayerInput(IHubMediator mediator)
         {
             _mediator = mediator;
         }

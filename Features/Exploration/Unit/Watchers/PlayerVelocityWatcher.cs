@@ -6,9 +6,9 @@ using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs.Entities;
 using Infrastructure.Ecs.Worlds;
-using Infrastructure.MediatorNS;
-using Infrastructure.MediatorNS.CommandManagement;
-using Infrastructure.MediatorNS.QueryManagement;
+using Infrastructure.Hub;
+using Infrastructure.Hub.CommandManagement;
+using Infrastructure.Hub.QueryManagement;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Services;
 
@@ -17,7 +17,7 @@ namespace Features.Exploration.Unit.Watchers
     public class PlayerVelocityWatcher : Watcher
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IMediator _mediator;
+        private readonly IHubMediator _mediator;
         private readonly INodeLocatorService _nodeLocatorService;
         private readonly IEcsEntityService _ecsEntityService;
 
@@ -26,7 +26,7 @@ namespace Features.Exploration.Unit.Watchers
 
         public PlayerVelocityWatcher(
             IServiceProvider serviceProvider,
-            IMediator mediator,
+            IHubMediator mediator,
             INodeLocatorService nodeLocatorService,
             IEcsWorldService ecsWorldService,
             IEcsEntityService ecsEntityService
@@ -40,7 +40,7 @@ namespace Features.Exploration.Unit.Watchers
             _world = ecsWorldService.GetWorld();
 
             var result = _mediator.RunQuery(QueryTypeEnum.GetPlayerEntity);
-            _playerEntity = result.ConvertResultValue<Entity>();
+            _playerEntity = result.ConvertResultValue<DefaultEcs.Entity>();
         }
 
         public override void Update(float elapsedTime)

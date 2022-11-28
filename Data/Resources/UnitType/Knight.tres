@@ -1,7 +1,7 @@
 [gd_resource type="Resource" load_steps=3 format=3 uid="uid://cwp8yaujl0qw8"]
 
 [ext_resource type="Texture2D" uid="uid://b7k0ihdy4qpba" path="res://Art/Icons/icon.png" id="1_uaqlq"]
-[ext_resource type="Script" path="res://Models/Schemas/UnitTypeSchema.cs" id="2_xqrpv"]
+[ext_resource type="Script" path="res://Data/Resources/UnitType/Schema/UnitTypeSchema.cs" id="2_xqrpv"]
 
 [resource]
 resource_name = "Knight"

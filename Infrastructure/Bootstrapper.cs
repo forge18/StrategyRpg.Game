@@ -1,5 +1,7 @@
 using Godot;
-using Infrastructure.MediatorNS;
+using Infrastructure.Ecs.Systems;
+using Infrastructure.Hub;
+using Microsoft.Extensions.Logging;
 using Presentation.Nodes;
 using Presentation.Services;
 
@@ -10,15 +12,27 @@ namespace Infrastructure
         private const string _gameScriptPath = "res://Presentation/Nodes/Game.cs";
         private const string _inputScriptPath = "res://Presentation/Nodes/Input.cs";
 
-        private readonly IMediator _mediator;
+        private readonly IHubMediator _mediator;
+        private readonly IEcsSystemService _ecsSystemService;
         private readonly INodeLocatorService _nodeLocatorService;
+        private readonly ILoggerFactory _loggerFactory;
+        private readonly ILogger<Bootstrapper> _logger;
 
         private Node _gameRootNode;
 
-        public Bootstrapper(IMediator mediator, INodeLocatorService nodeLocatorService, Node gameRootNode)
+        public Bootstrapper(
+            IHubMediator mediator, 
+            IEcsSystemService ecsSystemService, 
+            INodeLocatorService nodeLocatorService, 
+            ILoggerFactory loggerFactory,
+            Node gameRootNode
+        )
         {
             _mediator = mediator;
+            _ecsSystemService = ecsSystemService;
             _nodeLocatorService = nodeLocatorService;
+            _loggerFactory = loggerFactory;
+            _logger = loggerFactory.CreateLogger<Bootstrapper>();
             _gameRootNode = gameRootNode;
         }
 
@@ -31,11 +45,12 @@ namespace Infrastructure
         {
             CreateGameNode();
             CreateInputNode();
+            CreateUnitsNode();
         }
 
         public void CreateGameNode()
         {
-            var gameNode = new Game(_mediator);
+            var gameNode = new Game(_mediator, _ecsSystemService, _loggerFactory);
             gameNode.Name = "Game";
 
             _gameRootNode.AddChild(gameNode);

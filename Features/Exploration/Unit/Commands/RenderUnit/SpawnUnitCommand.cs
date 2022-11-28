@@ -4,23 +4,22 @@ using System.Threading.Tasks;
 using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs.Components;
-using Infrastructure.MediatorNS;
-using Infrastructure.MediatorNS.CommandManagement;
-using Infrastructure.MediatorNS.QueryManagement;
+using Infrastructure.Hub;
+using Infrastructure.Hub.CommandManagement;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Services;
 
-namespace StrategyRpg.Game.Features.Exploration.Unit.Commands.RenderUnit
+namespace Features.Exploration.Unit.Commands.RenderUnit
 {
-    public class SpawnUnitCommand : IQuery
+    public class SpawnUnitCommand : ICommand
     {
-        public readonly IMediator mediator;
+        public readonly IHubMediator mediator;
         public readonly INodeLocatorService nodeLocatorService;
         public Guid ProcessId { get; set; }
         public Entity UnitEntity { get; set; }
         public Entity UnitTypeEntity { get; set; }
 
-        public SpawnUnitCommand(IMediator mediator, INodeLocatorService nodeLocatorService, Guid processId, Entity unitEntity, Entity unitTypeEntity)
+        public SpawnUnitCommand(IHubMediator mediator, INodeLocatorService nodeLocatorService, Guid processId, Entity unitEntity, Entity unitTypeEntity)
         {
             this.mediator = mediator;
             this.nodeLocatorService = nodeLocatorService;
@@ -31,19 +30,25 @@ namespace StrategyRpg.Game.Features.Exploration.Unit.Commands.RenderUnit
         }
     }
 
-    public class SpawnUnitHandler : ICommandHandler<SpawnUnitCommand>
+    public class SpawnUnitHandler : ICommandHandler
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IMediator _mediator;
+        private readonly IHubMediator _mediator;
 
-        public SpawnUnitHandler(IServiceProvider serviceProvider, IMediator mediator)
+        public SpawnUnitHandler(IServiceProvider serviceProvider, IHubMediator mediator)
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
         }
 
-        public Task Handle(SpawnUnitCommand command, CancellationToken cancellationToken = default)
+        public CommandTypeEnum GetEnum()
         {
+            return CommandTypeEnum.SpawnUnit;
+        }
+
+        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        {
+            var command = genericCommand as SpawnUnitCommand;
             var position = command.UnitEntity.Get<CurrentPosition>().Value;
 
             var node = CreateUnitNode(command);
@@ -83,8 +88,7 @@ namespace StrategyRpg.Game.Features.Exploration.Unit.Commands.RenderUnit
 
             unitsNode.AddChild(node);
 
-            // command.nodeLocatorService.AddNodeByKey("Unit" + node.GetInstanceId(), node);
-            // command.nodeLocatorService.AddNodeByEntityId.(command.UnitEntity.Get<EntityId>().Value, node);
+            command.nodeLocatorService.AddNodeByEntityId(command.UnitEntity.Get<EntityId>().Value, node);
         }
     }
 }

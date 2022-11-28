@@ -12,14 +12,13 @@ using Data.Resources.UnitType.Loader;
 using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs.Entities;
-using Infrastructure.Ecs.Queries;
+using Infrastructure.Hub;
 
 namespace Data
 {
     public partial class EcsDataLoader : IEcsDataLoader
     {
         private IEcsEntityService _ecsEntityService;
-        private IEcsQueryService _ecsQueryService;
 
         private Dictionary<SchemaTypeEnum, string> _schemaPaths = new Dictionary<SchemaTypeEnum, string>()
     {
@@ -36,10 +35,9 @@ namespace Data
         { SchemaTypeEnum.UnitType, "res://Data/Resources/UnitType" }
     };
 
-        public EcsDataLoader(IEcsEntityService ecsEntityService, IEcsQueryService ecsQueryService)
+        public EcsDataLoader(IEcsEntityService ecsEntityService)
         {
             _ecsEntityService = ecsEntityService;
-            _ecsQueryService = ecsQueryService;
         }
 
         public Entity LoadResource(SchemaTypeEnum schema, string resourceName)
@@ -83,61 +81,61 @@ namespace Data
         {
             foreach (var (resourceName, schemaType) in dependencies)
             {
-
+                var rootPath =  "res://Data/Resources";
                 switch (schemaType)
                 {
                     case SchemaTypeEnum.Ability:
-                        var abilityFilepath = "res://Models/Data/Ability/" + resourceName + ".tres";
+                        var abilityFilepath = rootPath + "/Ability/" + resourceName + ".tres";
                         AbilitySchema abilitySchema = ResourceLoader.Load<AbilitySchema>(abilityFilepath);
                         LoadResource(SchemaTypeEnum.Ability, resourceName);
                         break;
                     case SchemaTypeEnum.Condition:
-                        var conditionFilepath = "res://Models/Data/Condition/" + resourceName + ".tres";
+                        var conditionFilepath = rootPath + "/Condition/" + resourceName + ".tres";
                         ConditionSchema conditionSchema = ResourceLoader.Load<ConditionSchema>(conditionFilepath);
                         LoadResource(SchemaTypeEnum.Condition, resourceName);
                         break;
                     case SchemaTypeEnum.Effect:
-                        var effectFilepath = "res://Models/Data/Effect/" + resourceName + ".tres";
+                        var effectFilepath = rootPath + "/Effect/" + resourceName + ".tres";
                         EffectSchema effectSchema = ResourceLoader.Load<EffectSchema>(effectFilepath);
                         LoadResource(SchemaTypeEnum.Effect, resourceName);
                         break;
                     case SchemaTypeEnum.Event:
-                        var eventFilepath = "res://Models/Data/Event/" + resourceName + ".tres";
+                        var eventFilepath = rootPath + "/Event/" + resourceName + ".tres";
                         EventSchema eventSchema = ResourceLoader.Load<EventSchema>(eventFilepath);
                         LoadResource(SchemaTypeEnum.Event, resourceName);
                         break;
                     case SchemaTypeEnum.Item:
-                        var itemFilepath = "res://Models/Data/Item/" + resourceName + ".tres";
+                        var itemFilepath = rootPath + "/Item/" + resourceName + ".tres";
                         ItemSchema itemSchema = ResourceLoader.Load<ItemSchema>(itemFilepath);
                         LoadResource(SchemaTypeEnum.Item, resourceName);
                         break;
                     case SchemaTypeEnum.Map:
-                        var mapFilepath = "res://Models/Data/Map/" + resourceName + ".tres";
+                        var mapFilepath = rootPath + "/Map/" + resourceName + ".tres";
                         MapSchema mapSchema = ResourceLoader.Load<MapSchema>(mapFilepath);
                         LoadResource(SchemaTypeEnum.Map, resourceName);
                         break;
                     case SchemaTypeEnum.MapEvent:
-                        var mapEventFilepath = "res://Models/Data/MapEvent/" + resourceName + ".tres";
+                        var mapEventFilepath = rootPath + "/MapEvent/" + resourceName + ".tres";
                         MapEventSchema mapEventSchema = ResourceLoader.Load<MapEventSchema>(mapEventFilepath);
                         LoadResource(SchemaTypeEnum.MapEvent, resourceName);
                         break;
                     case SchemaTypeEnum.Objective:
-                        var objectiveFilepath = "res://Models/Data/Objective/" + resourceName + ".tres";
+                        var objectiveFilepath = rootPath + "/Objective/" + resourceName + ".tres";
                         ObjectiveSchema objectiveSchema = ResourceLoader.Load<ObjectiveSchema>(objectiveFilepath);
                         LoadResource(SchemaTypeEnum.Objective, resourceName);
                         break;
                     case SchemaTypeEnum.Scenario:
-                        var scenarioFilepath = "res://Models/Data/Scenario/" + resourceName + ".tres";
+                        var scenarioFilepath = rootPath + "/Scenario/" + resourceName + ".tres";
                         ScenarioSchema scenarioSchema = ResourceLoader.Load<ScenarioSchema>(scenarioFilepath);
                         LoadResource(SchemaTypeEnum.Scenario, resourceName);
                         break;
                     case SchemaTypeEnum.Unit:
-                        var unitFilepath = "res://Models/Data/Unit/" + resourceName + ".tres";
+                        var unitFilepath = rootPath + "/Unit/" + resourceName + ".tres";
                         UnitSchema unitSchema = ResourceLoader.Load<UnitSchema>(unitFilepath);
                         LoadResource(SchemaTypeEnum.Unit, resourceName);
                         break;
                     case SchemaTypeEnum.UnitType:
-                        var unitTypeFilepath = "res://Models/Data/UnitType/" + resourceName + ".tres";
+                        var unitTypeFilepath = rootPath + "/UnitType/" + resourceName + ".tres";
                         UnitTypeSchema unitTypeSchema = ResourceLoader.Load<UnitTypeSchema>(unitTypeFilepath);
                         LoadResource(SchemaTypeEnum.UnitType, resourceName);
                         break;

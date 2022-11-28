@@ -26,8 +26,7 @@ namespace Infrastructure.Ecs.Worlds
         {
             if (!HasWorld(worldName))
             {
-                GD.Print("World does not exist");
-                return default;
+                CreateWorld(worldName);
             }
 
             return _worlds[worldName];
