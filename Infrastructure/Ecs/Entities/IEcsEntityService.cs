@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using DefaultEcs;
 
-namespace Infrastructure.Ecs.Entities
+namespace Infrastructure.Ecs
 {
     public interface IEcsEntityService
     {

@@ -1,21 +1,17 @@
 using System.Threading.Tasks;
-using Infrastructure.Hub.CommandManagement;
-using Infrastructure.Hub.EventManagement;
-using Infrastructure.Hub.QueryManagement;
-using Infrastructure.Hub.QueryManagement.Dto;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Hub
+namespace Infrastructure.HubMediator
 {
-    public class HubMediator : IHubMediator
+    public class Mediator : IMediator
     {
         private readonly ICommandMediator _commandMediator;
         private readonly IEventMediator _eventMediator;
         private readonly IQueryMediator _queryMediator;
         private readonly ILoggerFactory _loggerFactory;
-        private readonly ILogger<HubMediator> _logger;
+        private readonly ILogger<Mediator> _logger;
 
-        public HubMediator(
+        public Mediator(
             ICommandMediator commandMediator, 
             IEventMediator eventMediator, 
             IQueryMediator queryMediator,
@@ -26,13 +22,13 @@ namespace Infrastructure.Hub
             _eventMediator = eventMediator;
             _queryMediator = queryMediator;
             _loggerFactory = loggerFactory;
-            _logger = loggerFactory.CreateLogger<HubMediator>();
+            _logger = loggerFactory.CreateLogger<Mediator>();
         }
 
         // Command Management
-        public Task ExecuteCommand(CommandTypeEnum commandType, ICommand commandData)
+        public async Task<NoResult> ExecuteCommand(CommandTypeEnum commandType, ICommand commandData)
         {
-            return _commandMediator.ExecuteCommand(commandType, commandData);
+            return await _commandMediator.ExecuteCommand(commandType, commandData);
         }
 
         // Event Management

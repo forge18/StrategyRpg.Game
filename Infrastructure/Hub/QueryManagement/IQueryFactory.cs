@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public interface IQueryFactory
     {

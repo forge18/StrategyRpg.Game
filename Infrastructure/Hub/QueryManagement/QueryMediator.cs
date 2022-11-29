@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
-using Infrastructure.Hub.QueryManagement.Dto;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public class QueryMediator : IQueryMediator
     {

@@ -1,7 +1,7 @@
 
 using System.Collections.Generic;
 
-namespace Infrastructure.Hub.EventManagement.Events
+namespace Infrastructure.HubMediator
 {
     public class InputUpdatedEvent : IEvent
     {

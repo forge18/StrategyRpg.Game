@@ -1,6 +1,6 @@
 using DefaultEcs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Entities;
+using Infrastructure.Ecs;
 
 namespace Data.Resources.Ability.Loader
 {

@@ -1,4 +1,4 @@
-namespace Infrastructure.Hub.CommandManagement
+namespace Infrastructure.HubMediator
 {
     public interface ICommand
     {

@@ -1,14 +1,10 @@
 using System.Threading.Tasks;
-using Infrastructure.Hub.CommandManagement;
-using Infrastructure.Hub.EventManagement;
-using Infrastructure.Hub.QueryManagement;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub
+namespace Infrastructure.HubMediator
 {
-    public interface IHubMediator
+    public interface IMediator
     {
-        Task ExecuteCommand(CommandTypeEnum commandType, ICommand commandData);
+        Task<NoResult> ExecuteCommand(CommandTypeEnum commandType, ICommand commandData);
         void SubscribeToEvent(EventTypeEnum eventType, IEventListener eventListener);
         void UnsubscribeFromEvent(EventTypeEnum eventType, IEventListener eventListener);
         void NotifyOfEvent(EventTypeEnum eventType, IEvent eventData);

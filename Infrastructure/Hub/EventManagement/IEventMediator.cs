@@ -1,6 +1,4 @@
-using System;
-
-namespace Infrastructure.Hub.EventManagement
+namespace Infrastructure.HubMediator
 {
     public interface IEventMediator
     {

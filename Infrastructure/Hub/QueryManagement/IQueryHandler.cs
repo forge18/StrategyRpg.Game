@@ -1,9 +1,8 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public interface IQueryHandler
     {

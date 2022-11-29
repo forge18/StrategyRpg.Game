@@ -1,4 +1,4 @@
-namespace Infrastructure.Hub
+namespace Infrastructure.HubMediator
 {
     public enum EventActionEnum
     {

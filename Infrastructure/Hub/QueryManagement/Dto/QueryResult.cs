@@ -1,6 +1,6 @@
 using System;
 
-namespace Infrastructure.Hub.QueryManagement.Dto
+namespace Infrastructure.HubMediator
 {
     public class QueryResult
     {

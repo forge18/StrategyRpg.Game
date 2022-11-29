@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Hub.CommandManagement
+namespace Infrastructure.HubMediator
 {
     public interface ICommandMediator
     {
         ICommandHandler GetCommand(CommandTypeEnum commandType);
         Type GetCommandType(CommandTypeEnum commandHandlerEnum);
-        Task ExecuteCommand(CommandTypeEnum commandType, ICommand commandData);
+        Task<NoResult> ExecuteCommand(CommandTypeEnum commandType, ICommand commandData);
     }
 }

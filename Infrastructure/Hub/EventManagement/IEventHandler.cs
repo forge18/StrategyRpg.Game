@@ -1,7 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Hub.EventManagement
+namespace Infrastructure.HubMediator
 {
     public interface IEventHandler<IEvent>
     {

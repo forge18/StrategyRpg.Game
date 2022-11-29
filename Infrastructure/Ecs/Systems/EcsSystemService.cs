@@ -1,6 +1,6 @@
 using DefaultEcs.System;
 
-namespace Infrastructure.Ecs.Systems
+namespace Infrastructure.Ecs
 {
     public class EcsSystemService : IEcsSystemService
     {

@@ -1,4 +1,4 @@
-namespace Infrastructure.Hub.EventManagement
+namespace Infrastructure.HubMediator
 {
     public enum EventTypeEnum
     {

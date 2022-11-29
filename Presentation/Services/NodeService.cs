@@ -1,6 +1,5 @@
-using Godot;
 using Microsoft.Extensions.Logging;
-using Presentation.Interfaces;
+using Godot;
 
 namespace Presentation.Services
 {
@@ -17,7 +16,7 @@ namespace Presentation.Services
             _rootNode = _nodeLocatorService.GetNodeByKey("root");
         }
 
-        public TNode CreateNode<TNode>(string nodeName) where TNode : INode, new()
+        public Node CreateNode(string nodeName)
         {
             if (_nodeLocatorService.HasNode(nodeName))
             {
@@ -25,22 +24,8 @@ namespace Presentation.Services
                 return default;
             };
 
-            var test = new Node2D();
-            var node = new TNode();
+            var node = new Node();
             node.Name = nodeName;
-
-            return node;
-        }
-
-        public TNode CreateNodeFromScriptPath<TNode>(string scriptPath) where TNode : CSharpScript
-        {
-            if (!ResourceLoader.Exists(scriptPath))
-            {
-                _logger.LogWarning($"NodeService.CreateNodeFromScriptPath: Script with path {scriptPath} does not exist.");
-                return default;
-            }
-
-            TNode node = (TNode)ResourceLoader.Load<TNode>(scriptPath).New();
 
             return node;
         }

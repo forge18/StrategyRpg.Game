@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public interface IQueryMediator
     {

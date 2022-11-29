@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Hub.QueryManagement.Queries;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public class QueryFactory : IQueryFactory
     {
         private Dictionary<QueryTypeEnum, Type> _queryHandlers 
             = new Dictionary<QueryTypeEnum, Type>()
             {
+                { QueryTypeEnum.GetArenaScenario, typeof(GetArenaScenarioHandler) },
+                { QueryTypeEnum.GetCellIdByPosition, typeof(GetCellIdByPositionHandler) },
                 { QueryTypeEnum.GetEntitiesToRender, typeof(GetEntitiesToRenderHandler) },
+                { QueryTypeEnum.GetEntityByEntityId, typeof(GetEntityByEntityIdHandler) },
+                { QueryTypeEnum.GetEntityBySchemaId, typeof(GetEntityBySchemaIdHandler) },
                 { QueryTypeEnum.GetPlayerEntity, typeof(GetPlayerEntityHandler) },
                 { QueryTypeEnum.PlayerIsMoving, typeof(PlayerIsMovingHandler) }
             };

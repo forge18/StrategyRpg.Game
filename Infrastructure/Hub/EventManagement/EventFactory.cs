@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Infrastructure.Hub.EventManagement.Events;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Hub.EventManagement
+namespace Infrastructure.HubMediator
 {
     public class EventFactory : IEventFactory
     {

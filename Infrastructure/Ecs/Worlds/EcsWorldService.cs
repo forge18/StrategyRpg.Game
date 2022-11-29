@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using DefaultEcs;
 using Godot;
 
-namespace Infrastructure.Ecs.Worlds
+namespace Infrastructure.Ecs
 {
     public class EcsWorldService : IEcsWorldService
     {

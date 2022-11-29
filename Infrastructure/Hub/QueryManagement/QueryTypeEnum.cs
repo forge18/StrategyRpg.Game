@@ -1,7 +1,9 @@
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public enum QueryTypeEnum
     {
+        GetArenaScenario,
+        GetCellIdByPosition,
         GetEntitiesToRender,
         GetEntityByEntityId,
         GetEntityBySchemaId,

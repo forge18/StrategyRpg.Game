@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 
-namespace Infrastructure.Hub.EventManagement
+namespace Infrastructure.HubMediator
 {
     public class EventHandler : IEventHandler<IEvent>
     {

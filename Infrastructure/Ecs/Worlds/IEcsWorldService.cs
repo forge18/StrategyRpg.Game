@@ -1,6 +1,6 @@
 using DefaultEcs;
 
-namespace Infrastructure.Ecs.Worlds
+namespace Infrastructure.Ecs
 {
     public interface IEcsWorldService
     {

@@ -1,10 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub.QueryManagement.Dto;
+using Infrastructure.Ecs;
 
-namespace Infrastructure.Hub.QueryManagement
+namespace Infrastructure.HubMediator
 {
     public abstract class QueryHandler : IQueryHandler
     {

@@ -11,8 +11,7 @@ using Data.Resources.Unit.Loader;
 using Data.Resources.UnitType.Loader;
 using DefaultEcs;
 using Godot;
-using Infrastructure.Ecs.Entities;
-using Infrastructure.Hub;
+using Infrastructure.Ecs;
 
 namespace Data
 {

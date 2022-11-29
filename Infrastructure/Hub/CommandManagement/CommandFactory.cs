@@ -1,17 +1,21 @@
 using System;
 using System.Collections.Generic;
-using Features.Exploration.Unit.Commands.MovePlayer;
 using Microsoft.Extensions.DependencyInjection;
-using Features.Exploration.Unit.Commands.RenderUnit;
 using Microsoft.Extensions.Logging;
+using Features.Combat.ArenaSetup;
+using Features.Exploration.Unit;
 
-namespace Infrastructure.Hub.CommandManagement
+namespace Infrastructure.HubMediator
 {
     public class CommandFactory : ICommandFactory
     {
         private Dictionary<CommandTypeEnum, Type> _commandTypes = new Dictionary<CommandTypeEnum, Type>()
         {
+            { CommandTypeEnum.CreateArena, typeof(CreateArenaHandler) },
+            { CommandTypeEnum.CreateGrid, typeof(CreateGridHandler) },
+            { CommandTypeEnum.LoadNonPlayerUnits, typeof(LoadNonPlayerUnitsHandler) },
             { CommandTypeEnum.MovePlayer, typeof(MovePlayerHandler) },
+            { CommandTypeEnum.SetObjectives, typeof(SetObjectivesHandler) },
             { CommandTypeEnum.SpawnUnit, typeof(SpawnUnitHandler) }
         };
 
