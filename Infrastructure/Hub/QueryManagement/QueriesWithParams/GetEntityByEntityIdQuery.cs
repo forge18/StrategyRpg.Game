@@ -1,23 +1,28 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
+using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub.QueryManagement.QueriesWithParams
+namespace Infrastructure.HubMediator
 {
     public class GetEntityByEntityIdQuery : IQuery
     {
         public string WorldId { get; set; }
         public int EntityId { get; set; }
+
+        public GetEntityByEntityIdQuery(string worldId, int entityId)
+        {
+            WorldId = worldId;
+            EntityId = entityId;
+        }
     }
 
-    public class GetEntityByEntityIdQueryHandler : QueryHandler
+    public class GetEntityByEntityIdHandler : QueryHandler
     {
         private readonly IEcsWorldService _ecsWorldService;
 
-        public GetEntityByEntityIdQueryHandler(IEcsWorldService ecsWorldService) : 
+        public GetEntityByEntityIdHandler(IEcsWorldService ecsWorldService) : 
             base(ecsWorldService) 
         {
             _ecsWorldService = ecsWorldService;

@@ -1,23 +1,18 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using DefaultEcs;
-using Features.Exploration.Unit.Commands.MovePlayer;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Entities;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub;
-using Infrastructure.Hub.CommandManagement;
-using Infrastructure.Hub.QueryManagement;
-using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.HubMediator;
 using Presentation.Services;
 
-namespace Features.Exploration.Unit.Watchers
+namespace Features.Exploration.Unit
 {
     public class PlayerVelocityWatcher : Watcher
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHubMediator _mediator;
+        private readonly IMediator _mediator;
         private readonly INodeLocatorService _nodeLocatorService;
         private readonly IEcsEntityService _ecsEntityService;
 
@@ -26,7 +21,7 @@ namespace Features.Exploration.Unit.Watchers
 
         public PlayerVelocityWatcher(
             IServiceProvider serviceProvider,
-            IHubMediator mediator,
+            IMediator mediator,
             INodeLocatorService nodeLocatorService,
             IEcsWorldService ecsWorldService,
             IEcsEntityService ecsEntityService

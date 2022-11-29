@@ -1,19 +1,15 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Data;
 using DefaultEcs.System;
 using DefaultEcs.Threading;
-using Features.Exploration.Unit.Watchers;
-using Features.Infrastructure.Watchers;
+using Features.Exploration.Unit;
+using Features.Infrastructure;
 using Godot;
+using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Entities;
-using Infrastructure.Ecs.Systems;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub;
-using Infrastructure.Hub.EventManagement;
-using Infrastructure.Hub.EventManagement.Events;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using Infrastructure.HubMediator;
 using Presentation.Services;
 
 namespace Infrastructure.DependencyInjection
@@ -27,7 +23,7 @@ namespace Infrastructure.DependencyInjection
         private IEcsSystemService _ecsSystemService;
         private IEcsDataLoader _ecsDataLoader;
         private IEcsEntityService _ecsEntitiesService;
-        private IHubMediator _mediator;
+        private IMediator _mediator;
         private INodeLocatorService _nodeLocatorService;
         private ILoggerFactory _loggerFactory;
         
@@ -55,7 +51,7 @@ namespace Infrastructure.DependencyInjection
             _ecsEntitiesService = _container.GetService<IEcsEntityService>();
             _ecsDataLoader = _container.GetService<IEcsDataLoader>();
             _loggerFactory = _container.GetService<ILoggerFactory>();
-            _mediator = _container.GetService<IHubMediator>();
+            _mediator = _container.GetService<IMediator>();
             _nodeLocatorService = _container.GetService<INodeLocatorService>();
 
             var gameEvent = new EcsSystemsLoadedEvent(_systems);

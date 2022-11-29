@@ -1,12 +1,10 @@
 using Godot;
-using Presentation.Interfaces;
 
 namespace Presentation.Services
 {
     public interface INodeService
     {
-        TNode CreateNode<TNode>(string nodeName) where TNode : INode, new();
-        TNode CreateNodeFromScriptPath<TNode>(string scriptPath) where TNode : CSharpScript;
+        Node CreateNode(string nodeName);
 
         Node GetNode(NodePath nodePath);
         Node GetNode(string key);

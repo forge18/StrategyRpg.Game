@@ -1,20 +1,13 @@
 using System.Threading;
-
 using System.Threading.Tasks;
-
 using DefaultEcs;
-
 using Godot;
-
+using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-
-using Infrastructure.Ecs.Entities;
-
-using Infrastructure.Hub.CommandManagement;
-
+using Infrastructure.HubMediator;
 using Presentation.Services;
 
-namespace Features.Exploration.Unit.Commands.MovePlayer
+namespace Features.Exploration.Unit
 {
     public class MovePlayerCommand : ICommand
     {

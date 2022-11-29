@@ -1,11 +1,10 @@
-using System.Threading.Tasks;
-using System.Collections.Generic;
 using System;
-using Features.Exploration.Unit.Commands.MovePlayer;
-using Features.Exploration.Unit.Commands.RenderUnit;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Features.Exploration.Unit;
 
-namespace Infrastructure.Hub.CommandManagement
+namespace Infrastructure.HubMediator
 {
     public class CommandMediator : ICommandMediator
     {
@@ -41,10 +40,11 @@ namespace Infrastructure.Hub.CommandManagement
             return _commandTypes[commandHandlerEnum];
         }
 
-        public Task ExecuteCommand(CommandTypeEnum commandType, ICommand commandData)
+        public async Task<NoResult> ExecuteCommand(CommandTypeEnum commandType, ICommand commandData)
         {
             var command = GetCommand(commandType);
-            return command.Handle(commandData);
+            await command.Handle(commandData);
+            return new NoResult();
         }
     }
 }

@@ -1,25 +1,30 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Hub;
-using Infrastructure.Hub.CommandManagement;
-using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.HubMediator;
 using Presentation.Services;
 
-namespace Features.Exploration.Unit.Commands.RenderUnit
+namespace Features.Exploration.Unit
 {
     public class SpawnUnitCommand : ICommand
     {
-        public readonly IHubMediator mediator;
+        public readonly IMediator mediator;
         public readonly INodeLocatorService nodeLocatorService;
         public Guid ProcessId { get; set; }
         public Entity UnitEntity { get; set; }
         public Entity UnitTypeEntity { get; set; }
 
-        public SpawnUnitCommand(IHubMediator mediator, INodeLocatorService nodeLocatorService, Guid processId, Entity unitEntity, Entity unitTypeEntity)
+        public SpawnUnitCommand(
+            IMediator mediator, 
+            INodeLocatorService nodeLocatorService, 
+            Guid processId, 
+            Entity unitEntity, 
+            Entity unitTypeEntity
+        )
         {
             this.mediator = mediator;
             this.nodeLocatorService = nodeLocatorService;
@@ -33,9 +38,9 @@ namespace Features.Exploration.Unit.Commands.RenderUnit
     public class SpawnUnitHandler : ICommandHandler
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly IHubMediator _mediator;
+        private readonly IMediator _mediator;
 
-        public SpawnUnitHandler(IServiceProvider serviceProvider, IHubMediator mediator)
+        public SpawnUnitHandler(IServiceProvider serviceProvider, IMediator mediator)
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;

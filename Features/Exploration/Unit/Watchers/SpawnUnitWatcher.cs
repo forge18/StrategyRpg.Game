@@ -1,22 +1,18 @@
 using System;
+using Microsoft.Extensions.DependencyInjection;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Hub;
-using Infrastructure.Hub.CommandManagement;
-using Infrastructure.Hub.QueryManagement;
-using Microsoft.Extensions.DependencyInjection;
-using Features.Exploration.Unit.Commands.RenderUnit;
-using Infrastructure.Hub.QueryManagement.QueriesWithParams;
+using Infrastructure.HubMediator;
 
-namespace Features.Exploration.Unit.Watchers
+namespace Features.Exploration.Unit
 {
     public class SpawnUnitWatcher : Watcher
     {
         private IServiceProvider _serviceProvider;
-        private readonly IHubMediator _mediator;
+        private readonly IMediator _mediator;
 
-        public SpawnUnitWatcher(IServiceProvider serviceProvider, IHubMediator mediator)
+        public SpawnUnitWatcher(IServiceProvider serviceProvider, IMediator mediator)
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
@@ -38,6 +34,7 @@ namespace Features.Exploration.Unit.Watchers
                     QueryTypeEnum.GetEntityBySchemaId, 
                     new GetEntityBySchemaIdQuery { SchemaId = unitTypeId.Value }
                 );
+
                 var unitTypeEntity = result.ConvertResultValue<Entity>();
                 if (unitTypeEntity.Has<Sprite>())
                 {

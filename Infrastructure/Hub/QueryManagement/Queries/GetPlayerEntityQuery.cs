@@ -1,11 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
+using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub.QueryManagement.Queries
+namespace Infrastructure.HubMediator
 {
     public class GetPlayerEntityQuery : IQuery
     {

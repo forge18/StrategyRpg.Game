@@ -1,7 +1,7 @@
-using Godot;
-using Infrastructure.Ecs.Systems;
-using Infrastructure.Hub;
 using Microsoft.Extensions.Logging;
+using Godot;
+using Infrastructure.Ecs;
+using Infrastructure.HubMediator;
 using Presentation.Nodes;
 using Presentation.Services;
 
@@ -12,7 +12,7 @@ namespace Infrastructure
         private const string _gameScriptPath = "res://Presentation/Nodes/Game.cs";
         private const string _inputScriptPath = "res://Presentation/Nodes/Input.cs";
 
-        private readonly IHubMediator _mediator;
+        private readonly IMediator _mediator;
         private readonly IEcsSystemService _ecsSystemService;
         private readonly INodeLocatorService _nodeLocatorService;
         private readonly ILoggerFactory _loggerFactory;
@@ -21,7 +21,7 @@ namespace Infrastructure
         private Node _gameRootNode;
 
         public Bootstrapper(
-            IHubMediator mediator, 
+            IMediator mediator, 
             IEcsSystemService ecsSystemService, 
             INodeLocatorService nodeLocatorService, 
             ILoggerFactory loggerFactory,

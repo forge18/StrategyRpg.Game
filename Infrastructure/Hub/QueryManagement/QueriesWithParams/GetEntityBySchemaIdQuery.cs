@@ -1,20 +1,19 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
+using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub.QueryManagement.Dto;
 
-namespace Infrastructure.Hub.QueryManagement.QueriesWithParams
+namespace Infrastructure.HubMediator
 {
     public class GetEntityBySchemaIdQuery : IQuery
     {
         public string SchemaId { get; set; }
     }
 
-    public class GetEntityBySchemaIdQueryHandler : QueryHandler
+    public class GetEntityBySchemaIdHandler : QueryHandler
     {
-        public GetEntityBySchemaIdQueryHandler(IEcsWorldService ecsWorldService) : 
+        public GetEntityBySchemaIdHandler(IEcsWorldService ecsWorldService) : 
             base(ecsWorldService) {}
 
         public override QueryTypeEnum GetEnum()

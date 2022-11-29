@@ -1,12 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
-using DefaultEcs;
-using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub.QueryManagement.Dto;
 using Microsoft.Extensions.Logging;
+using DefaultEcs;
+using Infrastructure.Ecs;
+using Infrastructure.Ecs.Components;
 
-namespace Infrastructure.Hub.QueryManagement.Queries
+namespace Infrastructure.HubMediator
 {
     public class GetEntitiesToRenderQuery : IQuery
     {

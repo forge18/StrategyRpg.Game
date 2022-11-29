@@ -2,19 +2,16 @@ using System;
 using System.Collections.Generic;
 using DefaultEcs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Hub;
-using Infrastructure.Hub.QueryManagement;
-using Infrastructure.Hub.QueryManagement.QueriesWithParams;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.Ecs.Entities
+namespace Infrastructure.Ecs
 {
     public class EcsEntityService : IEcsEntityService
     {
-        private readonly IHubMediator _mediator;
+        private readonly IMediator _mediator;
         private readonly IEcsWorldService _ecsWorldService;
 
-        public EcsEntityService(IHubMediator mediator, IEcsWorldService ecsWorldService)
+        public EcsEntityService(IMediator mediator, IEcsWorldService ecsWorldService)
         {
             _mediator = mediator;
             _ecsWorldService = ecsWorldService;
@@ -33,7 +30,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -44,7 +41,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
             var hasEntity = entity != default;
@@ -68,7 +65,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -83,7 +80,7 @@ namespace Infrastructure.Ecs.Entities
             {
                 var result = _mediator.RunQuery(
                     QueryTypeEnum.GetEntityByEntityId,
-                    new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                    new GetEntityByEntityIdQuery(worldName, entityId)
                 );
                 var entity = result.ConvertResultValue<Entity>();
                 entities.Add(entity);
@@ -96,7 +93,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -107,7 +104,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -120,7 +117,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -133,7 +130,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -144,7 +141,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -157,7 +154,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -168,7 +165,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -179,7 +176,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 
@@ -190,7 +187,7 @@ namespace Infrastructure.Ecs.Entities
         {
             var result = _mediator.RunQuery(
                 QueryTypeEnum.GetEntityByEntityId,
-                new GetEntityByEntityIdQuery { WorldId = worldName, EntityId = entityId }
+                new GetEntityByEntityIdQuery(worldName, entityId)
             );
             var entity = result.ConvertResultValue<Entity>();
 

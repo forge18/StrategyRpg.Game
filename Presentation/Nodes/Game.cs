@@ -1,21 +1,19 @@
+using Microsoft.Extensions.Logging;
 using DefaultEcs.System;
 using Godot;
-using Infrastructure.Ecs.Systems;
-using Infrastructure.Hub;
-using Infrastructure.Hub.EventManagement;
-using Infrastructure.Hub.EventManagement.Events;
-using Microsoft.Extensions.Logging;
+using Infrastructure.Ecs;
+using Infrastructure.HubMediator;
 
 public partial class Game : Node, IEventListener
 {
-    private readonly IHubMediator _mediator;
+    private readonly IMediator _mediator;
     private readonly IEcsSystemService _ecsSystemService;
     private readonly ILogger<Game> _logger;
     private static ISystem<float> _systems;
 
     // Empty constructor for Godot Engine
     private Game() { }
-    public Game(IHubMediator mediator, IEcsSystemService ecsSystemService, ILoggerFactory loggerFactory)
+    public Game(IMediator mediator, IEcsSystemService ecsSystemService, ILoggerFactory loggerFactory)
     {
         _mediator = mediator;
         _ecsSystemService = ecsSystemService;

@@ -1,17 +1,13 @@
 using System;
-using Data;
-using Infrastructure.Ecs.Entities;
-using Infrastructure.Ecs.Systems;
-using Infrastructure.Ecs.Worlds;
-using Infrastructure.Logging;
-using Infrastructure.Hub;
-using Infrastructure.Hub.CommandManagement;
-using Infrastructure.Hub.EventManagement;
-using Infrastructure.Hub.QueryManagement;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Data;
+using Infrastructure.Ecs;
+using Infrastructure.HubMediator;
+using Infrastructure.Logging;
+using Infrastructure.Pathfinding;
 using Presentation.Services;
 using Serilog;
-using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -38,7 +34,7 @@ namespace Infrastructure.DependencyInjection
 			);
 			container.AddSingleton<IEcsEntityService, EcsEntityService>(
 				provider => new EcsEntityService(
-					provider.GetService<IHubMediator>(),
+					provider.GetService<IMediator>(),
 					provider.GetService<IEcsWorldService>()
 				)
 			);
@@ -51,6 +47,7 @@ namespace Infrastructure.DependencyInjection
 					provider.GetService<ILoggerFactory>()
 				)
 			);
+			container.AddSingleton<IPathfindingService, PathfindingService>();
 			container.AddSingleton<IServiceProvider, ServiceProvider>();
 
 			return container;
@@ -100,8 +97,8 @@ namespace Infrastructure.DependencyInjection
 					provider.GetService<ILoggerFactory>()
 				)
 			);
-			container.AddSingleton<IHubMediator, HubMediator>(
-				provider => new HubMediator(
+			container.AddSingleton<IMediator, Mediator>(
+				provider => new Mediator(
 					provider.GetService<ICommandMediator>(),
 					provider.GetService<IEventMediator>(),
 					provider.GetService<IQueryMediator>(),
