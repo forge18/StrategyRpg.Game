@@ -4,8 +4,9 @@ using Microsoft.Extensions.Logging;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.HubMediator
+namespace Features.Unit
 {
     public class PlayerIsMovingQuery : IQuery
     {

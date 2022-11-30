@@ -2,8 +2,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.HubMediator
+namespace Features.Combat.ArenaSetup
 {
     public class GetArenaScenarioQuery : IQuery
     {

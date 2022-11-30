@@ -5,12 +5,12 @@ using Data;
 using DefaultEcs.System;
 using DefaultEcs.Threading;
 using Features.Exploration.Unit;
-using Features.Infrastructure;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 using Presentation.Services;
+using Features.Global;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -71,14 +71,7 @@ namespace Infrastructure.DependencyInjection
 
         public void RegisterWatchers()
         {
-            _runner = new DefaultParallelRunner(System.Environment.ProcessorCount);
-            _systems = new SequentialSystem<float>(
-                new ProcessInputWatcher(_ecsWorldService, _mediator),
-                new PlayerVelocityWatcher(_serviceProvider, _mediator, _nodeLocatorService, _ecsWorldService, _ecsEntitiesService),
-                new SpawnUnitWatcher(_serviceProvider, _mediator)
-            );
-
-            _ecsSystemService.RegisterSystems(_systems);
+            
         }
 
         private void LoadTestData()

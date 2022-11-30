@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.HubMediator
+namespace Features.Combat.GridActions
 {
     public class GetCellIdByPositionQuery : IQuery
     {

@@ -6,7 +6,6 @@ namespace Infrastructure.Ecs
     {
         public virtual bool IsEnabled { get; set; } = true;
         public virtual void Update(float elapsedTime) { }
-
         public virtual void Dispose() { }
     }
 }

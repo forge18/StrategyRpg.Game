@@ -8,6 +8,7 @@ using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
 using Infrastructure.Pathfinding;
+using Features.Global;
 
 namespace Features.Combat.ArenaSetup
 {

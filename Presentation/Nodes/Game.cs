@@ -3,6 +3,7 @@ using DefaultEcs.System;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
+using Features.Global;
 
 public partial class Game : Node, IEventListener
 {

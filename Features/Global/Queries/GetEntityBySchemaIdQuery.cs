@@ -3,8 +3,9 @@ using System.Threading.Tasks;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.HubMediator
+namespace Features.Global
 {
     public class GetEntityBySchemaIdQuery : IQuery
     {

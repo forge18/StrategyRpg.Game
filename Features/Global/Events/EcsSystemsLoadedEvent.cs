@@ -1,6 +1,7 @@
 using DefaultEcs.System;
+using Infrastructure.HubMediator;
 
-namespace Infrastructure.HubMediator
+namespace Features.Global
 {
     public class EcsSystemsLoadedEvent : IEvent
     {

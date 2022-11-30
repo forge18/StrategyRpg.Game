@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Features.Global;
 using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.HubMediator

@@ -4,7 +4,7 @@ using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 
-namespace Features.Infrastructure
+namespace Features.Global
 {
     public class ProcessInputWatcher : Watcher, IEventListener
     {
