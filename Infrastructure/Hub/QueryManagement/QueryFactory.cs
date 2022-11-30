@@ -7,7 +7,7 @@ namespace Infrastructure.HubMediator
 {
     public class QueryFactory : IQueryFactory
     {
-        private Dictionary<QueryTypeEnum, Type> _queryHandlers 
+        private Dictionary<QueryTypeEnum, Type> _queryHandlers
             = new Dictionary<QueryTypeEnum, Type>()
             {
                 { QueryTypeEnum.GetArenaScenario, typeof(GetArenaScenarioHandler) },
@@ -15,6 +15,7 @@ namespace Infrastructure.HubMediator
                 { QueryTypeEnum.GetEntitiesToRender, typeof(GetEntitiesToRenderHandler) },
                 { QueryTypeEnum.GetEntityByEntityId, typeof(GetEntityByEntityIdHandler) },
                 { QueryTypeEnum.GetEntityBySchemaId, typeof(GetEntityBySchemaIdHandler) },
+                { QueryTypeEnum.GetGridPath, typeof(GetGridPathHandler) },
                 { QueryTypeEnum.GetPlayerEntity, typeof(GetPlayerEntityHandler) },
                 { QueryTypeEnum.PlayerIsMoving, typeof(PlayerIsMovingHandler) }
             };

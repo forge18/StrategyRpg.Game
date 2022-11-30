@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Features.Combat.ArenaSetup;
 using Features.Exploration.Unit;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.HubMediator
 {

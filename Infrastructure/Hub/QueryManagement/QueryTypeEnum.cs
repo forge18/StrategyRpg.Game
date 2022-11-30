@@ -7,6 +7,7 @@ namespace Infrastructure.HubMediator
         GetEntitiesToRender,
         GetEntityByEntityId,
         GetEntityBySchemaId,
+        GetGridPath,
         GetPlayerEntity,
         PlayerIsMoving,
     }

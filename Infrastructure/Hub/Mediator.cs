@@ -12,8 +12,8 @@ namespace Infrastructure.HubMediator
         private readonly ILogger<Mediator> _logger;
 
         public Mediator(
-            ICommandMediator commandMediator, 
-            IEventMediator eventMediator, 
+            ICommandMediator commandMediator,
+            IEventMediator eventMediator,
             IQueryMediator queryMediator,
             ILoggerFactory loggerFactory
         )
