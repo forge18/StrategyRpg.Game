@@ -4,8 +4,9 @@ namespace Infrastructure.Ecs
 {
     public interface IEcsSystemService
     {
-        void RegisterSystems(ISystem<float> systems);
-        bool HasSystem();
-        void UpdateSystems(float delta);
+        bool HasSystems();
+        SequentialSystem<float> GetRegisteredSystems();
+        void ProcessSystems(float delta);
+        void LoadUnregisteredSystems();
     }
 }

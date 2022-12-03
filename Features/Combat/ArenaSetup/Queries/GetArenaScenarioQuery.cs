@@ -2,6 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Combat.ArenaSetup
@@ -11,24 +12,22 @@ namespace Features.Combat.ArenaSetup
 
     }
 
-    public class GetArenaScenarioHandler : QueryHandler
+    public class GetArenaScenarioHandler : IQueryHandler<GetArenaScenarioQuery>, IHasEnum
     {
         private readonly IEcsWorldService _ecsWorldService;
 
-        public GetArenaScenarioHandler(IEcsWorldService ecsWorldService) : 
-            base(ecsWorldService) 
+        public GetArenaScenarioHandler(IEcsWorldService ecsWorldService) 
         {
             _ecsWorldService = ecsWorldService;
         }
 
-        public override QueryTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return QueryTypeEnum.GetArenaScenario;
+            return (int)QueryTypeEnum.GetArenaScenario;
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public Task<QueryResult> Handle(GetArenaScenarioQuery query, CancellationToken cancellationToken = default)
         {
-            var query = genericQuery as GetArenaScenarioQuery;
             var arena = _ecsWorldService.GetWorld("arena");
             var scenarioResult = arena.GetEntities().With<CurrentScenario>().AsSet().GetEntities();
 

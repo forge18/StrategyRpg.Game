@@ -1,11 +1,11 @@
+using System.Windows.Input;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace Infrastructure.HubMediator
 {
-    public interface ICommandHandler
+    public interface ICommandHandler<TCommand> where TCommand : ICommand
     {
-        CommandTypeEnum GetEnum();
-        Task Handle(ICommand command, CancellationToken cancellationToken = default);
+        Task Handle(TCommand command, CancellationToken cancellationToken = default);
     }
 }

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Combat.GridActions
@@ -17,24 +18,22 @@ namespace Features.Combat.GridActions
         }
     }
 
-    public class GetCellIdByPositionHandler : QueryHandler
+    public class GetCellIdByPositionHandler : IQueryHandler<GetCellIdByPositionQuery>, IHasEnum
     {
         private readonly IEcsWorldService _ecsWorldService;
 
-        public GetCellIdByPositionHandler(IEcsWorldService ecsWorldService) : 
-            base(ecsWorldService) 
+        public GetCellIdByPositionHandler(IEcsWorldService ecsWorldService)
         {
             _ecsWorldService = ecsWorldService;
         }
 
-        public override QueryTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return QueryTypeEnum.GetCellIdByPosition;
+            return (int)QueryTypeEnum.GetCellIdByPosition;
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public Task<QueryResult> Handle(GetCellIdByPositionQuery query, CancellationToken cancellationToken = default)
         {
-            var query = genericQuery as GetCellIdByPositionQuery;
             var arena = _ecsWorldService.GetWorld("Arena");
 
             var cells = arena.GetEntities().With<IsGridCell>().With<CurrentPosition>().AsSet().GetEntities();

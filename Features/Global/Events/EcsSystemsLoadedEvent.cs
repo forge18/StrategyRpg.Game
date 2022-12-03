@@ -1,4 +1,5 @@
 using DefaultEcs.System;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Global
@@ -13,11 +14,11 @@ namespace Features.Global
         }
     }
 
-    public class EcsSystemsLoadedHandler : EventHandler
+    public class EcsSystemsLoadedHandler : EventHandler<EcsSystemsLoadedEvent>, IHasEnum
     {
-        public override EventTypeEnum GetEnum()
+        public override int GetEnum()
         {
-            return EventTypeEnum.EcsSystemsLoaded;
+            return (int)EventTypeEnum.EcsSystemsLoaded;
         }
     }
 }

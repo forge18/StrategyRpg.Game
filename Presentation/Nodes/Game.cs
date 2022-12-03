@@ -24,12 +24,13 @@ public partial class Game : Node, IEventListener
     public override void _Ready()
     {
         _mediator.SubscribeToEvent(EventTypeEnum.EcsSystemsLoaded, this);
+        _ecsSystemService.LoadUnregisteredSystems();
     }
 
     public override void _Process(double delta)
     {
-        if (_ecsSystemService.HasSystem())
-            _ecsSystemService.UpdateSystems((float)delta);
+        if (_ecsSystemService.HasSystems())
+            _ecsSystemService.ProcessSystems((float)delta);
     }
 
     public void OnEvent(EventTypeEnum eventType, IEvent eventData)

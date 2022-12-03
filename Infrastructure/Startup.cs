@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Data;
 using DefaultEcs.System;
 using DefaultEcs.Threading;
-using Features.Exploration.Unit;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
@@ -37,10 +36,22 @@ namespace Infrastructure.DependencyInjection
             _gameRootNode = gameRootNode;
             _container = new ContainerBuilder().Build();
 
-            LoadRequiredServices();
             Run();
+        }
+
+        public void Run()
+        {
+            LoadRequiredServices();
+
+            new Bootstrapper(
+                _mediator, 
+                _ecsSystemService, 
+                _nodeLocatorService, 
+                _loggerFactory,
+                _gameRootNode
+            ).Run();
+
             LoadTestData();
-            RegisterWatchers();
         }
 
         public void LoadRequiredServices()
@@ -56,22 +67,6 @@ namespace Infrastructure.DependencyInjection
 
             var gameEvent = new EcsSystemsLoadedEvent(_systems);
             _mediator.NotifyOfEvent(EventTypeEnum.EcsSystemsLoaded, gameEvent);
-        }
-
-        public void Run()
-        {
-            new Bootstrapper(
-                _mediator, 
-                _ecsSystemService, 
-                _nodeLocatorService, 
-                _loggerFactory,
-                _gameRootNode
-            ).Run();
-        }
-
-        public void RegisterWatchers()
-        {
-            
         }
 
         private void LoadTestData()

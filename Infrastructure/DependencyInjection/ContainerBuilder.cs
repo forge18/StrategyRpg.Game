@@ -2,12 +2,13 @@ using System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Data;
-using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
 using Infrastructure.Logging;
 using Infrastructure.Pathfinding;
 using Presentation.Services;
 using Serilog;
+using System.Linq;
+using Infrastructure.Ecs;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -18,8 +19,10 @@ namespace Infrastructure.DependencyInjection
 			var container = new ServiceCollection();
 
 			container = AddServicesToCollection(container);
-			container = AddFactoriesToCollection(container);
 			container = AddMediatorToCollection(container);
+			container = AddCommandsToCollection(container);
+			container = AddEventsToCollection(container);
+			container = AddQueriesToCollection(container);
 			container = AddLoggingToCollection(container);
 
 			return container.BuildServiceProvider();
@@ -53,23 +56,31 @@ namespace Infrastructure.DependencyInjection
 			return container;
 		}
 
-		public ServiceCollection AddFactoriesToCollection(ServiceCollection container)
+		public ServiceCollection AddMediatorToCollection(ServiceCollection container)
 		{
-			container.AddTransient<ICommandFactory, CommandFactory>(
-				provider => new CommandFactory(
+			container.AddSingleton<ICommandProcessor, CommandProcessor>(
+				provider => new CommandProcessor(
 					provider.GetService<IServiceProvider>(),
 					provider.GetService<ILoggerFactory>()
 				)
 			);
-			container.AddTransient<IEventFactory, EventFactory>(
-				provider => new EventFactory(
+			container.AddSingleton<IEventProcessor, EventProcessor>(
+				provider => new EventProcessor(
 					provider.GetService<IServiceProvider>(),
 					provider.GetService<ILoggerFactory>()
 				)
 			);
-			container.AddTransient<IQueryFactory, QueryFactory>(
-				provider => new QueryFactory(
+			container.AddSingleton<IQueryProcessor, QueryProcessor>(
+				provider => new QueryProcessor(
 					provider.GetService<IServiceProvider>(),
+					provider.GetService<ILoggerFactory>()
+				)
+			);
+			container.AddSingleton<IMediator, Mediator>(
+				provider => new Mediator(
+					provider.GetService<ICommandProcessor>(),
+					provider.GetService<IEventProcessor>(),
+					provider.GetService<IQueryProcessor>(),
 					provider.GetService<ILoggerFactory>()
 				)
 			);
@@ -77,34 +88,85 @@ namespace Infrastructure.DependencyInjection
 			return container;
 		}
 
-		public ServiceCollection AddMediatorToCollection(ServiceCollection container)
+		public ServiceCollection AddCommandsToCollection(ServiceCollection container)
 		{
-			container.AddSingleton<ICommandMediator, CommandMediator>(
-				provider => new CommandMediator(
-					provider.GetService<ICommandFactory>(),
-					provider.GetService<ILoggerFactory>()
-				)
-			);
-			container.AddSingleton<IEventMediator, EventMediator>(
-				provider => new EventMediator(
-					provider.GetService<IEventFactory>(),
-					provider.GetService<ILoggerFactory>()
-				)
-			);
-			container.AddSingleton<IQueryMediator, QueryMediator>(
-				provider => new QueryMediator(
-					provider.GetService<IQueryFactory>(),
-					provider.GetService<ILoggerFactory>()
-				)
-			);
-			container.AddSingleton<IMediator, Mediator>(
-				provider => new Mediator(
-					provider.GetService<ICommandMediator>(),
-					provider.GetService<IEventMediator>(),
-					provider.GetService<IQueryMediator>(),
-					provider.GetService<ILoggerFactory>()
-				)
-			);
+			var commandHandlers = typeof(Startup).Assembly.GetTypes()
+            	.Where(t =>
+					t.GetInterfaces()
+					.Any(i =>
+						i.IsGenericType &&
+						i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
+					)
+				);
+
+			foreach (var handler in commandHandlers)
+			{
+				container.AddScoped(
+					handler.GetInterfaces()
+					.First(i => 
+						i.IsGenericType && 
+						i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
+					), handler
+				);
+			}
+
+			return container;
+		}
+
+		public ServiceCollection AddEventsToCollection(ServiceCollection container)
+		{
+			var eventHandlers = typeof(Startup).Assembly.GetTypes()
+            	.Where(t =>
+					t.GetInterfaces()
+					.Any(i =>
+						i.IsGenericType &&
+						i.GetGenericTypeDefinition() == typeof(IEventHandler<>)
+					)
+				);
+
+			foreach (var handler in eventHandlers)  
+			{  
+				if (handler.Name == "EventHandler`1")  
+				{  
+					continue;  
+				}
+
+				container.AddScoped(
+					handler.GetInterfaces()
+					.First(i => 
+						i.IsGenericType && 
+						i.Name != "EventHandler`1" &&
+						i.GetGenericTypeDefinition() == typeof(IEventHandler<>)
+					), handler
+				);
+			}  
+
+			return container;
+		}
+
+		public ServiceCollection AddQueriesToCollection(ServiceCollection container)
+		{
+			var queryHandlers = typeof(Startup).Assembly.GetTypes()
+            	.Where(t =>
+					t.GetInterfaces()
+					.Any(i =>
+						i.IsGenericType &&
+						!i.ContainsGenericParameters &&
+						i.GetGenericTypeDefinition() == typeof(IQueryHandler<>)
+					)
+				);
+
+			foreach (var handler in queryHandlers)  
+			{  
+				container.AddScoped(
+					handler.GetInterfaces()
+					.First(i => 
+						i.IsGenericType && 
+						!i.ContainsGenericParameters &&
+						i.GetGenericTypeDefinition() == typeof(IQueryHandler<>)
+					), handler
+				);
+			}  
 
 			return container;
 		}

@@ -32,10 +32,8 @@ namespace Features.Global
         public void UpdateButtonComponents(Dictionary<InputButtonsEnum, bool> _inputButtons)
         {
 
-            if (_inputButtons.Count > 0)
-
-                if (_inputButtons.ContainsKey(InputButtonsEnum.Down) && _inputButtons[InputButtonsEnum.Down] && !_world.Has<DownKey>())
-                    _world.Set<DownKey>();
+            if (_inputButtons.ContainsKey(InputButtonsEnum.Down) && _inputButtons[InputButtonsEnum.Down] && !_world.Has<DownKey>())
+                _world.Set<DownKey>();
 
             if (!_inputButtons[InputButtonsEnum.Down] && _world.Has<DownKey>())
                 _world.Remove<DownKey>();

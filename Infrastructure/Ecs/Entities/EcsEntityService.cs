@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using DefaultEcs;
 using Features.Global;
-using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
+using Infrastructure.Ecs.Components;
 
 namespace Infrastructure.Ecs
 {

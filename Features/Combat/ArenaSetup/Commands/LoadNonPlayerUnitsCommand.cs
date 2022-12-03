@@ -9,6 +9,7 @@ using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
 using Infrastructure.Pathfinding;
 using Features.Global;
+using Infrastructure.Hub;
 
 namespace Features.Combat.ArenaSetup
 {
@@ -37,17 +38,15 @@ namespace Features.Combat.ArenaSetup
         }
     }
 
-    public class LoadNonPlayerUnitsHandler : ICommandHandler
+    public class LoadNonPlayerUnitsHandler : ICommandHandler<LoadNonPlayerUnitsCommand>, IHasEnum
     {
-        public CommandTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return CommandTypeEnum.LoadNonPlayerUnits;
+            return (int)CommandTypeEnum.LoadNonPlayerUnits;
         }
 
-        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        public Task Handle(LoadNonPlayerUnitsCommand command, CancellationToken cancellationToken = default)
         {
-            var command = genericCommand as LoadNonPlayerUnitsCommand;
-            
             foreach (var (cell, unitEntity) in command.NonPlayerUnits)
             {
                 var cellEntity = GetCellEntity(command, cell);

@@ -4,6 +4,7 @@ using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
+using Infrastructure.Hub;
 
 namespace Features.Combat.ArenaSetup
 {
@@ -19,17 +20,15 @@ namespace Features.Combat.ArenaSetup
         }
     }
 
-    public class SetObjectivesHandler : ICommandHandler
+    public class SetObjectivesHandler : ICommandHandler<SetObjectivesCommand>, IHasEnum
     {
-        public CommandTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return CommandTypeEnum.SetObjectives;
+            return (int)CommandTypeEnum.SetObjectives;
         }
 
-        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        public Task Handle(SetObjectivesCommand command, CancellationToken cancellationToken = default)
         {
-            var command = genericCommand as SetObjectivesCommand;
-
             command.Arena.Set<Objectives>(new Objectives(){ Values = command.Objectives });
 
             return Task.CompletedTask;

@@ -4,6 +4,7 @@ using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 using Presentation.Services;
 
@@ -24,16 +25,16 @@ namespace Features.Exploration.Unit
         }
     }
 
-    public class MovePlayerHandler : ICommandHandler
+    public class MovePlayerHandler : ICommandHandler<MovePlayerCommand>, IHasEnum
     {
-        public CommandTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return CommandTypeEnum.MovePlayer;
+            return (int)CommandTypeEnum.MovePlayer;
         }
 
-        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        public Task Handle(MovePlayerCommand command, CancellationToken cancellationToken = default)
         {
-            var command = genericCommand as MovePlayerCommand;
+
             var entityId = command.ecsEntityService.ParseEntityId(command.PlayerEntity);
 
             CharacterBody2D body = (CharacterBody2D)command.nodeLocatorService.GetNodeByEntityId(entityId);

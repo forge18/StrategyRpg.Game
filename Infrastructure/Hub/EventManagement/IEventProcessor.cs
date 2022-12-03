@@ -1,6 +1,6 @@
 namespace Infrastructure.HubMediator
 {
-    public interface IEventMediator
+    public interface IEventProcessor
     {
         void Subscribe(EventTypeEnum eventType, IEventListener eventListener);
         void Unsubscribe(EventTypeEnum eventType, IEventListener eventListener);

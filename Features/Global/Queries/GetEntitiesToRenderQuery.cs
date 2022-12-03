@@ -5,6 +5,7 @@ using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
+using Infrastructure.Hub;
 
 namespace Features.Global
 {
@@ -13,19 +14,24 @@ namespace Features.Global
         public bool Test { get; set; }
     }
 
-    public class GetEntitiesToRenderHandler : QueryHandler
+    public class GetEntitiesToRenderHandler : IQueryHandler<GetEntitiesToRenderQuery>, IHasEnum
     {
-        public GetEntitiesToRenderHandler(IEcsWorldService ecsWorldService, ILoggerFactory loggerFactory)
-            : base(ecsWorldService) {}
+        private readonly World _world;
+        private readonly ILogger<GetEntitiesToRenderHandler> _logger;
 
-        public override QueryTypeEnum GetEnum()
+        public GetEntitiesToRenderHandler(IEcsWorldService ecsWorldService, ILoggerFactory loggerFactory)
         {
-            return QueryTypeEnum.GetEntitiesToRender;
+            _world = ecsWorldService.GetWorld();
+            _logger = loggerFactory.CreateLogger<GetEntitiesToRenderHandler>();
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public int GetEnum()
         {
-            var query = genericQuery as GetEntitiesToRenderQuery;
+            return (int)QueryTypeEnum.GetEntitiesToRender;
+        }
+
+        public Task<QueryResult> Handle(GetEntitiesToRenderQuery query, CancellationToken cancellationToken = default)
+        {
             var entities = _world.GetEntities().With<NeedToRender>().AsSet();
 
             var result = new QueryResult(

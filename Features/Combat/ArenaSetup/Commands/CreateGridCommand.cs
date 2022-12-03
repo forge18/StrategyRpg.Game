@@ -6,6 +6,7 @@ using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
 using Infrastructure.Pathfinding;
+using Infrastructure.Hub;
 
 namespace Features.Combat.ArenaSetup
 {
@@ -29,17 +30,15 @@ namespace Features.Combat.ArenaSetup
         }
     }
 
-    public class CreateGridHandler : ICommandHandler
+    public class CreateGridHandler : ICommandHandler<CreateGridCommand>, IHasEnum
     {
-        public CommandTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return CommandTypeEnum.CreateGrid;
+            return (int)CommandTypeEnum.CreateGrid;
         }
 
-        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        public Task Handle(CreateGridCommand command, CancellationToken cancellationToken = default)
         {
-            var command = genericCommand as CreateGridCommand;
-
             for (int x = 0; x < command.GridDimensions.x; x++)
             {
                 for (int y = 0; y < command.GridDimensions.y; y++)

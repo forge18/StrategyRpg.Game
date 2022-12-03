@@ -5,6 +5,7 @@ using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
+using Infrastructure.Hub;
 
 namespace Features.Unit
 {
@@ -13,24 +14,29 @@ namespace Features.Unit
 
     }
 
-    public class PlayerIsMovingHandler : QueryHandler
+    public class PlayerIsMovingHandler : IQueryHandler<PlayerIsMovingQuery>, IHasEnum
     {
-        public PlayerIsMovingHandler(IEcsWorldService ecsWorldService, ILoggerFactory loggerFactory) 
-            : base(ecsWorldService) {}
+        private readonly World _world;
+        private readonly ILogger<PlayerIsMovingHandler> _logger;
 
-        public override QueryTypeEnum GetEnum()
+        public PlayerIsMovingHandler(IEcsWorldService ecsWorldService, ILoggerFactory loggerFactory) 
         {
-            return QueryTypeEnum.PlayerIsMoving;
+            _world = ecsWorldService.GetWorld();
+            _logger = loggerFactory.CreateLogger<PlayerIsMovingHandler>();
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public int GetEnum()
         {
-            var query = genericQuery as PlayerIsMovingQuery;
+            return (int)QueryTypeEnum.PlayerIsMoving;
+        }
+
+        public Task<QueryResult> Handle(PlayerIsMovingQuery query, CancellationToken cancellationToken = default)
+        {
             var playerEntity = _world.GetEntities().With<IsPlayerEntity>().AsSet().GetEntities()[0];
 
             var playerHasVelocity = PlayerHasVelocity(playerEntity);
 
-            var result = CreateResultObject(
+            var result = new QueryResult(
                 QueryTypeEnum.PlayerIsMoving,
                 true,
                 playerHasVelocity,

@@ -3,13 +3,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.HubMediator
 {
-    public interface IEventHandler<IEvent>
+    public interface IEventHandler<TEvent> where TEvent : IEvent
     {
-        EventTypeEnum GetEnum();
         Task Handle(
             EventActionEnum action,
             EventTypeEnum eventType,
-            IEvent eventData,
+            TEvent eventData,
             IEventListener listener = null,
             CancellationToken cancellationToken = default
         );

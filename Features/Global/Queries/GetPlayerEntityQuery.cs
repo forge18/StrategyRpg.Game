@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Global
@@ -12,19 +13,22 @@ namespace Features.Global
 
     }
 
-    public class GetPlayerEntityHandler : QueryHandler
+    public class GetPlayerEntityHandler : IQueryHandler<GetPlayerEntityQuery>, IHasEnum
     {
-        public GetPlayerEntityHandler(IEcsWorldService ecsWorldService) : 
-            base(ecsWorldService) {}
+        private readonly World _world;
 
-        public override QueryTypeEnum GetEnum()
+        public GetPlayerEntityHandler(IEcsWorldService ecsWorldService)
         {
-            return QueryTypeEnum.GetPlayerEntity;
+            _world = ecsWorldService.GetWorld();
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public int GetEnum()
         {
-            var query = genericQuery as GetPlayerEntityQuery;
+            return (int)QueryTypeEnum.GetPlayerEntity;
+        }
+
+        public Task<QueryResult> Handle(GetPlayerEntityQuery query, CancellationToken cancellationToken = default)
+        {
             var playerEntityResult = _world.GetEntities().With<IsPlayerEntity>().AsSet().GetEntities();
 
             Entity playerEntity = playerEntityResult.Length > 0 ?

@@ -7,6 +7,7 @@ using Godot;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 using Presentation.Services;
+using Infrastructure.Hub;
 
 namespace Features.Exploration.Unit
 {
@@ -35,7 +36,7 @@ namespace Features.Exploration.Unit
         }
     }
 
-    public class SpawnUnitHandler : ICommandHandler
+    public class SpawnUnitHandler : ICommandHandler<SpawnUnitCommand>, IHasEnum
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
@@ -46,14 +47,13 @@ namespace Features.Exploration.Unit
             _mediator = mediator;
         }
 
-        public CommandTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return CommandTypeEnum.SpawnUnit;
+            return (int)CommandTypeEnum.SpawnUnit;
         }
 
-        public Task Handle(ICommand genericCommand, CancellationToken cancellationToken = default)
+        public Task Handle(SpawnUnitCommand command, CancellationToken cancellationToken = default)
         {
-            var command = genericCommand as SpawnUnitCommand;
             var position = command.UnitEntity.Get<CurrentPosition>().Value;
 
             var node = CreateUnitNode(command);

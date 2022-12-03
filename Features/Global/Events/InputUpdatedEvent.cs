@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Global
@@ -9,11 +10,11 @@ namespace Features.Global
         public Dictionary<InputButtonsEnum, bool> ButtonStatus;
     }
 
-    public class InputUpdatedHandler : EventHandler
+    public class InputUpdatedHandler : EventHandler<InputUpdatedEvent>, IHasEnum
     {
-        public override EventTypeEnum GetEnum()
+        public override int GetEnum()
         {
-            return EventTypeEnum.InputUpdated;
+            return (int)EventTypeEnum.InputUpdated;
         }
     }
 }

@@ -4,14 +4,14 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.HubMediator
 {
-    public class EventHandler : IEventHandler<IEvent>
+    public class EventHandler<TEvent> : IEventHandler<IEvent>
     {
         private Dictionary<EventTypeEnum, IEnumerable<IEventListener>> _eventListeners =
             new Dictionary<EventTypeEnum, IEnumerable<IEventListener>>();
 
-        public virtual EventTypeEnum GetEnum()
+        public virtual int GetEnum()
         {
-            return EventTypeEnum.Undefined;
+            return (int)EventTypeEnum.Undefined;
         }
 
         public Task Handle(

@@ -1,7 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
+using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 using Infrastructure.Pathfinding;
 
@@ -23,26 +25,19 @@ namespace Features.Combat.GridActions
         }
     }
 
-    public class GetGridPathHandler : QueryHandler
+    public class GetGridPathHandler : IQueryHandler<GetGridPathQuery>, IHasEnum
     {
-        public GetGridPathHandler(IEcsWorldService ecsWorldService) :
-            base(ecsWorldService)
+        public int GetEnum()
         {
+            return (int)QueryTypeEnum.GetGridPath;
         }
 
-        public override QueryTypeEnum GetEnum()
+        public Task<QueryResult> Handle(GetGridPathQuery query, CancellationToken cancellationToken = default)
         {
-            return QueryTypeEnum.GetGridPath;
-        }
-
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
-        {
-            var query = genericQuery as GetGridPathQuery;
-
             var path = query._pathfindingService.GetPath(query.Origin, query.Target);
 
             return Task.FromResult(new QueryResult(
-                GetEnum(),
+                (QueryTypeEnum)GetEnum(),
                 true,
                 path,
                 typeof(Vector2[])

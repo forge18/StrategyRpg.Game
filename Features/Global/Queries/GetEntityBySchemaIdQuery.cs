@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Global
@@ -12,19 +13,22 @@ namespace Features.Global
         public string SchemaId { get; set; }
     }
 
-    public class GetEntityBySchemaIdHandler : QueryHandler
+    public class GetEntityBySchemaIdHandler : IQueryHandler<GetEntityBySchemaIdQuery>, IHasEnum
     {
-        public GetEntityBySchemaIdHandler(IEcsWorldService ecsWorldService) : 
-            base(ecsWorldService) {}
+        private readonly World _world;
 
-        public override QueryTypeEnum GetEnum()
+        public GetEntityBySchemaIdHandler(IEcsWorldService ecsWorldService) 
         {
-            return QueryTypeEnum.GetEntityByEntityId;
+            _world = ecsWorldService.GetWorld();
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public int GetEnum()
         {
-            var query = genericQuery as GetEntityBySchemaIdQuery;
+            return (int)QueryTypeEnum.GetEntityBySchemaId;
+        }
+
+        public Task<QueryResult> Handle(GetEntityBySchemaIdQuery query, CancellationToken cancellationToken = default)
+        {
             var schemaId = query.SchemaId;
 
             Entity resultEntity = default;

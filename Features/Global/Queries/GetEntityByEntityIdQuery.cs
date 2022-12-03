@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Global
@@ -19,45 +20,40 @@ namespace Features.Global
         }
     }
 
-    public class GetEntityByEntityIdHandler : QueryHandler
+    public class GetEntityByEntityIdHandler : IQueryHandler<GetEntityByEntityIdQuery>, IHasEnum
     {
-        private readonly IEcsWorldService _ecsWorldService;
+        private readonly World _world;
 
-        public GetEntityByEntityIdHandler(IEcsWorldService ecsWorldService) : 
-            base(ecsWorldService) 
+        public GetEntityByEntityIdHandler(IEcsWorldService ecsWorldService)
         {
-            _ecsWorldService = ecsWorldService;
+            _world = ecsWorldService.GetWorld();
         }
 
-        public override QueryTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return QueryTypeEnum.GetEntityByEntityId;
+            return (int)QueryTypeEnum.GetEntityByEntityId;
         }
 
-        public override Task<QueryResult> Handle(IQuery genericQuery, CancellationToken cancellationToken = default)
+        public Task<QueryResult> Handle(GetEntityByEntityIdQuery query, CancellationToken cancellationToken = default)
         {
-            var query = genericQuery as GetEntityByEntityIdQuery;
-            var worldId = query.WorldId;
-            var entityId = query.EntityId;
+            var entities = _world.GetEntities().With<EntityId>().AsSet();
+            Entity entity = default;
 
-            Entity resultEntity = default;
-            var world = worldId == "default" ? GetWorld() : _ecsWorldService.GetWorld(worldId);
-            var entities = world.GetEntities().With<EntityId>().AsSet().GetEntities();
-            foreach (var entity in entities)
+            foreach (var e in entities.GetEntities())
             {
-                var entityIdComponent = entity.Get<EntityId>();
-                if (entityIdComponent.Value == entityId)
+                var entityId = e.Get<EntityId>();
+                if (entityId.Value == query.EntityId)
                 {
-                    resultEntity = entity;
+                    entity = e;
                     break;
                 }
             }
 
             var result = new QueryResult(
                 QueryTypeEnum.GetEntityByEntityId,
-                resultEntity != default,
-                resultEntity,
-                resultEntity != default ? typeof(DefaultEcs.Entity) : null
+                true,
+                entity,
+                typeof(Entity)
             );
 
             return Task.FromResult(result);
