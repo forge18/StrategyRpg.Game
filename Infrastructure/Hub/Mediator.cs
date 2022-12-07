@@ -47,11 +47,11 @@ namespace Infrastructure.HubMediator
             _eventProcessor.Notify(eventType, eventData);
         }
 
-        public QueryResult RunQuery(QueryTypeEnum queryHandlerEnum, IQuery queryData = null)
+        public async Task<QueryResult> RunQuery(QueryTypeEnum queryHandlerEnum, IQuery queryData = null)
         {
             var data = queryData != null ? queryData : _queryProcessor.EmptyQuery();
-            var result = _queryProcessor.RunQuery(queryHandlerEnum, queryData);
-            return result.Result;
+            var result = await _queryProcessor.RunQuery(queryHandlerEnum, queryData);
+            return result;
         }
     }
 }

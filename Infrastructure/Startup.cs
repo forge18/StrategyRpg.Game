@@ -42,15 +42,7 @@ namespace Infrastructure.DependencyInjection
         public void Run()
         {
             LoadRequiredServices();
-
-            new Bootstrapper(
-                _mediator, 
-                _ecsSystemService, 
-                _nodeLocatorService, 
-                _loggerFactory,
-                _gameRootNode
-            ).Run();
-
+            RunBootstrapper();
             LoadTestData();
         }
 
@@ -67,6 +59,17 @@ namespace Infrastructure.DependencyInjection
 
             var gameEvent = new EcsSystemsLoadedEvent(_systems);
             _mediator.NotifyOfEvent(EventTypeEnum.EcsSystemsLoaded, gameEvent);
+        }
+
+        private void RunBootstrapper()
+        {
+            new Bootstrapper(
+                _mediator, 
+                _ecsSystemService, 
+                _nodeLocatorService, 
+                _loggerFactory,
+                _gameRootNode
+            ).Run();
         }
 
         private void LoadTestData()

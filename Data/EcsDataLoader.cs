@@ -20,19 +20,19 @@ namespace Data
         private IEcsEntityService _ecsEntityService;
 
         private Dictionary<SchemaTypeEnum, string> _schemaPaths = new Dictionary<SchemaTypeEnum, string>()
-    {
-        { SchemaTypeEnum.Ability, "res://Data/Resources/Ability" },
-        { SchemaTypeEnum.Condition, "res://Data/Resources/Condition" },
-        { SchemaTypeEnum.Effect, "res://Data/Resources/Effect" },
-        { SchemaTypeEnum.Event, "res://Data/Resources/Event" },
-        { SchemaTypeEnum.Item, "res://Data/Resources/Item" },
-        { SchemaTypeEnum.Map, "res://Data/Resources/Map" },
-        { SchemaTypeEnum.MapEvent, "res://Data/Resources/MapEvent" },
-        { SchemaTypeEnum.Objective, "res://Data/Resources/Objective" },
-        { SchemaTypeEnum.Scenario, "res://Data/Resources/Scenario" },
-        { SchemaTypeEnum.Unit, "res://Data/Resources/Unit" },
-        { SchemaTypeEnum.UnitType, "res://Data/Resources/UnitType" }
-    };
+        {
+            { SchemaTypeEnum.Ability, "res://Data/Resources/Ability" },
+            { SchemaTypeEnum.Condition, "res://Data/Resources/Condition" },
+            { SchemaTypeEnum.Effect, "res://Data/Resources/Effect" },
+            { SchemaTypeEnum.Event, "res://Data/Resources/Event" },
+            { SchemaTypeEnum.Item, "res://Data/Resources/Item" },
+            { SchemaTypeEnum.Map, "res://Data/Resources/Map" },
+            { SchemaTypeEnum.MapEvent, "res://Data/Resources/MapEvent" },
+            { SchemaTypeEnum.Objective, "res://Data/Resources/Objective" },
+            { SchemaTypeEnum.Scenario, "res://Data/Resources/Scenario" },
+            { SchemaTypeEnum.Unit, "res://Data/Resources/Unit" },
+            { SchemaTypeEnum.UnitType, "res://Data/Resources/UnitType" }
+        };
 
         public EcsDataLoader(IEcsEntityService ecsEntityService)
         {

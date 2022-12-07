@@ -13,19 +13,19 @@ namespace Presentation.Services
         {
             _nodeLocatorService = nodeLocatorService;
             _logger = loggerFactory.CreateLogger<NodeService>();
-            _rootNode = _nodeLocatorService.GetNodeByKey("root");
+            _rootNode = _nodeLocatorService.GetNodeByKey(NodeKeyEnum.Root);
         }
 
-        public Node CreateNode(string nodeName)
+        public Node CreateNode(NodeKeyEnum key)
         {
-            if (_nodeLocatorService.HasNode(nodeName))
+            if (_nodeLocatorService.HasNode(key))
             {
-                _logger.LogWarning($"NodeService.CreateNode: Node with name {nodeName} already exists.");
+                _logger.LogWarning($"NodeService.CreateNode: Node with name {key.ToString()} already exists.");
                 return default;
             };
 
             var node = new Node();
-            node.Name = nodeName;
+            node.Name = key.ToString();
 
             return node;
         }
@@ -42,12 +42,12 @@ namespace Presentation.Services
             return node;
         }
 
-        public Node GetNode(string key)
+        public Node GetNode(NodeKeyEnum key)
         {
             var node = _nodeLocatorService.GetNodeByKey(key);
             if (node == null)
             {
-                _logger.LogWarning($"NodeService.GetNode: Node with key {key} does not exist.");
+                _logger.LogWarning($"NodeService.GetNode: Node with key {key.ToString()} does not exist.");
                 return default;
             }
 
@@ -76,7 +76,8 @@ namespace Presentation.Services
                 parentNode.AddChild(newNode);
             }
 
-            _nodeLocatorService.AddNodeByKey(newNode.Name, newNode);
+            var key = (NodeKeyEnum)System.Enum.Parse(typeof(NodeKeyEnum), newNode.Name);
+            _nodeLocatorService.AddNodeByKey(key, newNode);
 
             return newNode;
         }
@@ -92,7 +93,8 @@ namespace Presentation.Services
 
         public void RemoveNodeFromTree(Node node)
         {
-            _nodeLocatorService.RemoveNodeByKey(node.Name);
+            var key = (NodeKeyEnum)System.Enum.Parse(typeof(NodeKeyEnum), node.Name);
+            _nodeLocatorService.RemoveNodeByKey(key);
 
             node.QueueFree();
         }

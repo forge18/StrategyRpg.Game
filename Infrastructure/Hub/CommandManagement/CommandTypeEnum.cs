@@ -2,10 +2,12 @@ namespace Infrastructure.HubMediator
 {
     public enum CommandTypeEnum
     {
+        AddUnitIdToCellEntity,
         CreateArena,
         CreateGrid,
-        LoadNonPlayerUnits,
+        LoadArenaMap,
         MovePlayer,
+        SetMapEvents,
         SetObjectives,
         SpawnUnit,
     }

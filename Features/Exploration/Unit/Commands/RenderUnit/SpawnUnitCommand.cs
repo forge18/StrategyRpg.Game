@@ -13,23 +13,16 @@ namespace Features.Exploration.Unit
 {
     public class SpawnUnitCommand : ICommand
     {
-        public readonly IMediator mediator;
-        public readonly INodeLocatorService nodeLocatorService;
         public Guid ProcessId { get; set; }
         public Entity UnitEntity { get; set; }
         public Entity UnitTypeEntity { get; set; }
 
         public SpawnUnitCommand(
-            IMediator mediator, 
-            INodeLocatorService nodeLocatorService, 
-            Guid processId, 
-            Entity unitEntity, 
+            Guid processId,
+            Entity unitEntity,
             Entity unitTypeEntity
         )
         {
-            this.mediator = mediator;
-            this.nodeLocatorService = nodeLocatorService;
-
             ProcessId = processId;
             UnitEntity = unitEntity;
             UnitTypeEntity = unitTypeEntity;
@@ -40,11 +33,17 @@ namespace Features.Exploration.Unit
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
+        private readonly INodeLocatorService _nodeLocatorService;
 
-        public SpawnUnitHandler(IServiceProvider serviceProvider, IMediator mediator)
+        public SpawnUnitHandler(
+            IServiceProvider serviceProvider,
+            IMediator mediator,
+            INodeLocatorService nodeLocatorService
+        )
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
+            _nodeLocatorService = nodeLocatorService;
         }
 
         public int GetEnum()
@@ -84,7 +83,7 @@ namespace Features.Exploration.Unit
 
         public void AttachUnitToUnitsNode(SpawnUnitCommand command, CharacterBody2D node)
         {
-            var unitsNode = command.nodeLocatorService.GetNodeByKey("Units");
+            var unitsNode = _nodeLocatorService.GetNodeByKey(NodeKeyEnum.Units);
             if (unitsNode == null)
             {
                 GD.PrintErr("Units node not found");
@@ -93,7 +92,7 @@ namespace Features.Exploration.Unit
 
             unitsNode.AddChild(node);
 
-            command.nodeLocatorService.AddNodeByEntityId(command.UnitEntity.Get<EntityId>().Value, node);
+            _nodeLocatorService.AddNodeByEntityId(command.UnitEntity.Get<EntityId>().Value, node);
         }
     }
 }

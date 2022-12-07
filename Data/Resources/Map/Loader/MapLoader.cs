@@ -1,6 +1,8 @@
 using DefaultEcs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs;
+using Infrastructure.Map;
+using System;
 
 namespace Data.Resources.Map.Loader
 {
@@ -24,6 +26,7 @@ namespace Data.Resources.Map.Loader
             newEntity.Set<SchemaType>(new SchemaType() { Value = SchemaTypeEnum.Map });
             newEntity.Set<SchemaId>(new SchemaId() { Value = schema.DataId });
             newEntity.Set<Name>(new Name() { Value = schema.Name });
+            newEntity.Set<MapEnumValue>(new MapEnumValue() { Value = (MapEnum)Enum.Parse(typeof(MapEnum), schema.Name) });
 
             if (schema.Description != null)
                 newEntity.Set<Description>(new Description() { Value = schema.Description });

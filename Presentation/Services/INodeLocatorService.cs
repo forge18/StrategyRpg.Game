@@ -5,10 +5,10 @@ namespace Presentation.Services
     public interface INodeLocatorService
     {
         void AddNodeByEntityId(int entityId, Node node);
-        void AddNodeByKey(string key, Node node);
+        void AddNodeByKey(NodeKeyEnum key, Node node);
         Node GetNodeByEntityId(int entityId);
-        Node GetNodeByKey(string key);
-        void RemoveNodeByKey(string key);
-        bool HasNode(string key);
+        Node GetNodeByKey(NodeKeyEnum key);
+        void RemoveNodeByKey(NodeKeyEnum key);
+        bool HasNode(NodeKeyEnum key);
     }
 }

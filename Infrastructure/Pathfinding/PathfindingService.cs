@@ -1,3 +1,4 @@
+using Features.Arena.GridActions;
 using Features.Combat.GridActions;
 using Godot;
 using Infrastructure.HubMediator;
@@ -28,7 +29,7 @@ namespace Infrastructure.Pathfinding
         public int GetCellIdByPosition(Vector2 position)
         {
             var result = _mediator.RunQuery(QueryTypeEnum.GetCellIdByPosition, new GetCellIdByPositionQuery(position));
-            var cellId = result.ConvertResultValue<int>();
+            var cellId = result.Result.ConvertResultValue<int>();
 
             return cellId;
         }

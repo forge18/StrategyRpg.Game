@@ -8,7 +8,7 @@ namespace Presentation.Services
     {
         private readonly ILogger<NodeLocatorService> _logger;
 
-        private static Dictionary<string, Node> _nodeByKey = new Dictionary<string, Node>();
+        private static Dictionary<NodeKeyEnum, Node> _nodeByKey = new Dictionary<NodeKeyEnum, Node>();
         private static Dictionary<int, Node> _nodeByEntityId = new Dictionary<int, Node>();
 
         public NodeLocatorService(ILoggerFactory loggerFactory)
@@ -27,11 +27,11 @@ namespace Presentation.Services
             _nodeByEntityId.Add(entityId, node);
         }
 
-        public void AddNodeByKey(string key, Node node)
+        public void AddNodeByKey(NodeKeyEnum key, Node node)
         {
             if (_nodeByKey.ContainsKey(key))
             {
-                _logger.LogWarning($"NodeLocatorService.AddNodeByKey: Node with key {key} already exists.");
+                _logger.LogWarning($"NodeLocatorService.AddNodeByKey: Node with key {key.ToString()} already exists.");
                 return;
             }
 
@@ -49,29 +49,29 @@ namespace Presentation.Services
             return _nodeByEntityId[entityId];
         }
 
-        public Node GetNodeByKey(string key)
+        public Node GetNodeByKey(NodeKeyEnum key)
         {
             if (!_nodeByKey.ContainsKey(key))
             {
-                _logger.LogWarning($"NodeLocatorService.GetNodeByKey: Node with key {key} does not exist.");
+                _logger.LogWarning($"NodeLocatorService.GetNodeByKey: Node with key {key.ToString()} does not exist.");
                 return default;
             }
 
             return _nodeByKey[key];
         }
 
-        public void RemoveNodeByKey(string key)
+        public void RemoveNodeByKey(NodeKeyEnum key)
         {
             if (!_nodeByKey.ContainsKey(key))
             {
-                _logger.LogWarning($"NodeLocatorService.RemoveNodeByKey: Node with key {key} does not exist.");
+                _logger.LogWarning($"NodeLocatorService.RemoveNodeByKey: Node with key {key.ToString()} does not exist.");
                 return;
             }
 
             _nodeByKey.Remove(key);
         }
 
-        public bool HasNode(string key)
+        public bool HasNode(NodeKeyEnum key)
         {
             return _nodeByKey.ContainsKey(key);
         }

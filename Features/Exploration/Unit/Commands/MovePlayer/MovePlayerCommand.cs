@@ -15,18 +15,27 @@ namespace Features.Exploration.Unit
         public Entity PlayerEntity { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public INodeLocatorService nodeLocatorService { get; set; }
-        public IEcsEntityService ecsEntityService { get; set; }
-
-        public MovePlayerCommand(INodeLocatorService nodeLocatorService, IEcsEntityService ecsEntityService)
+        public MovePlayerCommand(Entity playerEntity, Vector2 velocity)
         {
-            this.nodeLocatorService = nodeLocatorService;
-            this.ecsEntityService = ecsEntityService;
+            PlayerEntity = playerEntity;
+            Velocity = velocity;
         }
     }
 
     public class MovePlayerHandler : ICommandHandler<MovePlayerCommand>, IHasEnum
     {
+        private readonly INodeLocatorService _nodeLocatorService;
+        private readonly IEcsEntityService _ecsEntityService;
+
+        public MovePlayerHandler(
+            INodeLocatorService nodeLocatorService,
+            IEcsEntityService ecsEntityService
+        )
+        {
+            _nodeLocatorService = nodeLocatorService;
+            _ecsEntityService = ecsEntityService;
+        }
+
         public int GetEnum()
         {
             return (int)CommandTypeEnum.MovePlayer;
@@ -35,9 +44,9 @@ namespace Features.Exploration.Unit
         public Task Handle(MovePlayerCommand command, CancellationToken cancellationToken = default)
         {
 
-            var entityId = command.ecsEntityService.ParseEntityId(command.PlayerEntity);
+            var entityId = _ecsEntityService.ParseEntityId(command.PlayerEntity);
 
-            CharacterBody2D body = (CharacterBody2D)command.nodeLocatorService.GetNodeByEntityId(entityId);
+            CharacterBody2D body = (CharacterBody2D)_nodeLocatorService.GetNodeByEntityId(entityId);
             var speed = command.PlayerEntity.Get<MoveSpeed>().Value;
             var moveVelocity = command.Velocity * speed;
 

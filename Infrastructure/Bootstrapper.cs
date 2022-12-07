@@ -51,28 +51,28 @@ namespace Infrastructure
         public void CreateGameNode()
         {
             var gameNode = new Game(_mediator, _ecsSystemService, _loggerFactory);
-            gameNode.Name = "Game";
+            gameNode.Name = NodeKeyEnum.Game.ToString();
 
             _gameRootNode.AddChild(gameNode);
-            _nodeLocatorService.AddNodeByKey("Game", gameNode);
+            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.Game, gameNode);
         }
 
         public void CreateInputNode()
         {
             var inputNode = new PlayerInput(_mediator);
-            inputNode.Name = "PlayerInput";
+            inputNode.Name = NodeKeyEnum.PlayerInput.ToString();
 
             _gameRootNode.AddChild(inputNode);
-            _nodeLocatorService.AddNodeByKey("PlayerInput", inputNode);
+            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.PlayerInput, inputNode);
         }
 
         public void CreateUnitsNode()
         {
             var unitsNode = new Node();
-            unitsNode.Name = "Units";
+            unitsNode.Name = NodeKeyEnum.Units.ToString();
 
             _gameRootNode.AddChild(unitsNode);
-            _nodeLocatorService.AddNodeByKey("Units", unitsNode);
+            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.Units, unitsNode);
         }
     }
 }

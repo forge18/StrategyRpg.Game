@@ -4,10 +4,10 @@ namespace Presentation.Services
 {
     public interface INodeService
     {
-        Node CreateNode(string nodeName);
+        Node CreateNode(NodeKeyEnum key);
 
         Node GetNode(NodePath nodePath);
-        Node GetNode(string key);
+        Node GetNode(NodeKeyEnum key);
         Node GetNode(int entityId);
 
         Node AddNodeToTree(Node newNode, Node parentNode = null);

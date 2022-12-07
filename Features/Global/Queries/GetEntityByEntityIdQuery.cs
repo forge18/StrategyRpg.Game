@@ -10,12 +10,12 @@ namespace Features.Global
 {
     public class GetEntityByEntityIdQuery : IQuery
     {
-        public string WorldId { get; set; }
+        public string WorldName { get; set; }
         public int EntityId { get; set; }
 
-        public GetEntityByEntityIdQuery(string worldId, int entityId)
+        public GetEntityByEntityIdQuery(EcsWorldEnum worldName, int entityId)
         {
-            WorldId = worldId;
+            WorldName = worldName.ToString();
             EntityId = entityId;
         }
     }

@@ -44,12 +44,12 @@ namespace Infrastructure.Ecs
         {
             var types = AppDomain.CurrentDomain.GetAssemblies()
             .SelectMany(s => s.GetTypes())
-            .Where(p => typeof(IWatcher).IsAssignableFrom(p) && p.IsClass);
+            .Where(p => typeof(IEcsSystem).IsAssignableFrom(p) && p.IsClass);
 
             var unregisteredSystems = new Collection<ValueTuple<Type,Type[]>>();
             foreach (var type in types)
             {
-                var watcherInstance = (IWatcher)ActivatorUtilities.CreateInstance(_serviceProvider, type);
+                var watcherInstance = (IEcsSystem)ActivatorUtilities.CreateInstance(_serviceProvider, type);
                 var dependencies = watcherInstance.GetDependencies();
                 var props = new ValueTuple<Type,Type[]>(type, dependencies);
                 unregisteredSystems.Add(props);

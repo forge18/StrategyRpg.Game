@@ -8,7 +8,7 @@ namespace Infrastructure.Ecs
     {
         private static Dictionary<string, World> _worlds = new Dictionary<string, World>();
 
-        public World CreateWorld(string worldName)
+        public World CreateWorld(EcsWorldEnum worldName)
         {
             if (HasWorld(worldName))
             {
@@ -17,27 +17,27 @@ namespace Infrastructure.Ecs
             }
 
             var newWorld = new World();
-            _worlds.Add(worldName, newWorld);
+            _worlds.Add(worldName.ToString(), newWorld);
 
             return newWorld;
         }
 
-        public World GetWorld(string worldName = "default")
+        public World GetWorld(EcsWorldEnum worldName = EcsWorldEnum.Default)
         {
             if (!HasWorld(worldName))
             {
                 CreateWorld(worldName);
             }
 
-            return _worlds[worldName];
+            return _worlds[worldName.ToString()];
         }
 
-        public bool HasWorld(string worldName)
+        public bool HasWorld(EcsWorldEnum worldName)
         {
-            return _worlds.ContainsKey(worldName);
+            return _worlds.ContainsKey(worldName.ToString());
         }
 
-        public void DestroyWorld(string worldName)
+        public void DestroyWorld(EcsWorldEnum worldName)
         {
             if (!HasWorld(worldName))
             {
@@ -45,17 +45,17 @@ namespace Infrastructure.Ecs
                 return;
             }
 
-            _worlds[worldName].Dispose();
-            _worlds.Remove(worldName);
+            _worlds[worldName.ToString()].Dispose();
+            _worlds.Remove(worldName.ToString());
         }
 
-        public void AddComponentToWorld<T>(T component, string worldName = "default") where T : struct
+        public void AddComponentToWorld<T>(T component, EcsWorldEnum worldName = EcsWorldEnum.Default) where T : struct
         {
             var world = GetWorld(worldName);
             world.Set(component);
         }
 
-        public T GetComponentInWorld<T>(string worldName = "default") where T : struct
+        public T GetComponentInWorld<T>(EcsWorldEnum worldName = EcsWorldEnum.Default) where T : struct
         {
             var world = GetWorld(worldName);
             var component = world.Get<T>();
@@ -63,7 +63,7 @@ namespace Infrastructure.Ecs
             return component;
         }
 
-        public T GetComponentReferenceInWorld<T>(string worldName = "default") where T : struct
+        public T GetComponentReferenceInWorld<T>(EcsWorldEnum worldName = EcsWorldEnum.Default) where T : struct
         {
             var world = GetWorld(worldName);
             ref var component = ref world.Get<T>();
@@ -71,7 +71,7 @@ namespace Infrastructure.Ecs
             return component;
         }
 
-        public bool HasComponentInWorld<T>(string worldName = "default") where T : struct
+        public bool HasComponentInWorld<T>(EcsWorldEnum worldName = EcsWorldEnum.Default) where T : struct
         {
             var world = GetWorld(worldName);
             var hasComponent = world.Has<T>();
@@ -79,7 +79,7 @@ namespace Infrastructure.Ecs
             return hasComponent;
         }
 
-        public void RemoveComponentFromWorld<T>(string worldName = "default") where T : struct
+        public void RemoveComponentFromWorld<T>(EcsWorldEnum worldName = EcsWorldEnum.Default) where T : struct
         {
             var world = GetWorld(worldName);
             world.Remove<T>();

@@ -8,6 +8,6 @@ namespace Infrastructure.HubMediator
         void SubscribeToEvent(EventTypeEnum eventType, IEventListener eventListener);
         void UnsubscribeFromEvent(EventTypeEnum eventType, IEventListener eventListener);
         void NotifyOfEvent(EventTypeEnum eventType, IEvent eventData);
-        QueryResult RunQuery(QueryTypeEnum queryHandlerEnum, IQuery queryData = null);
+        Task<QueryResult> RunQuery(QueryTypeEnum queryHandlerEnum, IQuery queryData = null);
     }
 }
