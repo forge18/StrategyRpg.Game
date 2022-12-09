@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Infrastructure.Hub;
-using Infrastructure.HubMediator;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
+using Infrastructure.HubMediator;
 
 namespace Features.Arena.ArenaSetup
 {
@@ -12,7 +12,7 @@ namespace Features.Arena.ArenaSetup
     {
         public EntitySet MapEvents;
 
-        public SetMapEventsCommand(IEcsWorldService ecsWorldService, EntitySet mapEvents)
+        public SetMapEventsCommand(EntitySet mapEvents)
         {
             MapEvents = mapEvents;
         }
@@ -48,7 +48,7 @@ namespace Features.Arena.ArenaSetup
                 mapIds[index] = mapId;
                 index++;
             }
-            _arena.Set<MapEvents>(new MapEvents(){ Values = mapIds });
+            _arena.Set<MapEventEntities>(new MapEventEntities() { Values = mapIds });
 
             return Task.CompletedTask;
         }

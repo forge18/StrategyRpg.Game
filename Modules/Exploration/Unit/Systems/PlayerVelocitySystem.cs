@@ -1,10 +1,10 @@
 using System;
-using Microsoft.Extensions.DependencyInjection;
 using DefaultEcs;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
+using Microsoft.Extensions.DependencyInjection;
 using Presentation.Services;
 
 namespace Features.Exploration.Unit
@@ -56,9 +56,10 @@ namespace Features.Exploration.Unit
             var velocity = GetVector2FromInput();
             _playerEntity.Set<IsMoving>();
 
-            var commandData = ActivatorUtilities.CreateInstance<MovePlayerCommand>(_serviceProvider);
-            commandData.PlayerEntity = _playerEntity;
-            commandData.Velocity = velocity;
+            var commandData = ActivatorUtilities.CreateInstance<MovePlayerCommand>(_serviceProvider, new object[] {
+                _playerEntity,
+                velocity
+            });
 
             _mediator.ExecuteCommand(CommandTypeEnum.MovePlayer, commandData);
         }

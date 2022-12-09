@@ -1,15 +1,16 @@
 using System.Threading;
 using System.Threading.Tasks;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
 namespace Features.Arena.ArenaSetup
 {
     public class GetUnitsToLoadQuery : IQuery
     {
-        
+
     }
 
-    public class GetUnitsToLoadHandler : IQueryHandler<GetUnitsToLoadQuery>
+    public class GetUnitsToLoadHandler : IQueryHandler<GetUnitsToLoadQuery>, IHasEnum
     {
         public int GetEnum()
         {

@@ -1,15 +1,15 @@
 using System;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Data;
 using DefaultEcs.System;
 using DefaultEcs.Threading;
+using Features.Global;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Presentation.Services;
-using Features.Global;
 
 namespace Infrastructure.DependencyInjection
 {
@@ -25,11 +25,13 @@ namespace Infrastructure.DependencyInjection
         private IMediator _mediator;
         private INodeLocatorService _nodeLocatorService;
         private ILoggerFactory _loggerFactory;
-        
+
 
         private Node _gameRootNode;
         private DefaultParallelRunner _runner;
         private ISystem<float> _systems;
+
+        private static Boolean _isRunning = false;
 
         public Startup(Node gameRootNode)
         {
@@ -41,9 +43,16 @@ namespace Infrastructure.DependencyInjection
 
         public void Run()
         {
+            if (_isRunning)
+            {
+                return;
+            }
+
             LoadRequiredServices();
             RunBootstrapper();
             LoadTestData();
+
+            _isRunning = true;
         }
 
         public void LoadRequiredServices()
@@ -56,17 +65,14 @@ namespace Infrastructure.DependencyInjection
             _loggerFactory = _container.GetService<ILoggerFactory>();
             _mediator = _container.GetService<IMediator>();
             _nodeLocatorService = _container.GetService<INodeLocatorService>();
-
-            var gameEvent = new EcsSystemsLoadedEvent(_systems);
-            _mediator.NotifyOfEvent(EventTypeEnum.EcsSystemsLoaded, gameEvent);
         }
 
         private void RunBootstrapper()
         {
             new Bootstrapper(
-                _mediator, 
-                _ecsSystemService, 
-                _nodeLocatorService, 
+                _mediator,
+                _ecsSystemService,
+                _nodeLocatorService,
                 _loggerFactory,
                 _gameRootNode
             ).Run();

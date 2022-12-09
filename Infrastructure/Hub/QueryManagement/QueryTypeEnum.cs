@@ -2,6 +2,7 @@ namespace Infrastructure.HubMediator
 {
     public enum QueryTypeEnum
     {
+        ConvertEntityIdsToEntities,
         GetArenaScenario,
         GetCellEntityByCellId,
         GetCellIdByPosition,

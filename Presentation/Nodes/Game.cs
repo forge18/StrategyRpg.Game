@@ -1,11 +1,10 @@
-using Microsoft.Extensions.Logging;
 using DefaultEcs.System;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.HubMediator;
-using Features.Global;
+using Microsoft.Extensions.Logging;
 
-public partial class Game : Node, IEventListener
+public partial class Game : Node
 {
     private readonly IMediator _mediator;
     private readonly IEcsSystemService _ecsSystemService;
@@ -23,7 +22,6 @@ public partial class Game : Node, IEventListener
 
     public override void _Ready()
     {
-        _mediator.SubscribeToEvent(EventTypeEnum.EcsSystemsLoaded, this);
         _ecsSystemService.LoadUnregisteredSystems();
     }
 
@@ -31,15 +29,5 @@ public partial class Game : Node, IEventListener
     {
         if (_ecsSystemService.HasSystems())
             _ecsSystemService.ProcessSystems((float)delta);
-    }
-
-    public void OnEvent(EventTypeEnum eventType, IEvent eventData)
-    {
-        if (eventType == EventTypeEnum.EcsSystemsLoaded)
-        {
-            _logger.LogInformation("Game: EcsSystemsLoaded event received.");
-            var gameEvent = (EcsSystemsLoadedEvent)eventData;
-            _systems = gameEvent.Systems;
-        }
     }
 }

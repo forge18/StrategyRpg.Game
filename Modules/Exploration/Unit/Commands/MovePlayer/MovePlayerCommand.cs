@@ -15,7 +15,7 @@ namespace Features.Exploration.Unit
         public Entity PlayerEntity { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public MovePlayerCommand(Entity playerEntity, Vector2 velocity)
+        public MovePlayerCommand(DefaultEcs.Entity playerEntity, Vector2 velocity)
         {
             PlayerEntity = playerEntity;
             Velocity = velocity;

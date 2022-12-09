@@ -1,10 +1,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
-using Infrastructure.Ecs.Components;
 using Infrastructure.Ecs;
-using Infrastructure.HubMediator;
+using Infrastructure.Ecs.Components;
 using Infrastructure.Hub;
+using Infrastructure.HubMediator;
 
 namespace Features.Arena.ArenaSetup
 {
@@ -12,7 +12,7 @@ namespace Features.Arena.ArenaSetup
     {
         public readonly string[] Objectives;
 
-        public SetObjectivesCommand(IEcsWorldService ecsWorldService, string[] objectives)
+        public SetObjectivesCommand(string[] objectives)
         {
             Objectives = objectives;
         }
@@ -34,7 +34,7 @@ namespace Features.Arena.ArenaSetup
 
         public Task Handle(SetObjectivesCommand command, CancellationToken cancellationToken = default)
         {
-            _arena.Set<Objectives>(new Objectives(){ Values = command.Objectives });
+            _arena.Set<Objectives>(new Objectives() { Values = command.Objectives });
 
             return Task.CompletedTask;
         }

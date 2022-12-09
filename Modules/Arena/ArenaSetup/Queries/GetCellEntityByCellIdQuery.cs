@@ -5,6 +5,7 @@ using Features.Global;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
+using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 using Infrastructure.Pathfinding;
 
@@ -23,7 +24,7 @@ namespace Features.Arena.ArenaSetup
 
     }
 
-    public class GetCellEntityByCellIdHandler : IQueryHandler<GetCellEntityByCellIdQuery>
+    public class GetCellEntityByCellIdHandler : IQueryHandler<GetCellEntityByCellIdQuery>, IHasEnum
     {
         public readonly World _world;
         public readonly IPathfindingService _pathfindingService;
@@ -37,9 +38,9 @@ namespace Features.Arena.ArenaSetup
             _pathfindingService = pathfindingService;
         }
 
-        public QueryTypeEnum GetEnum()
+        public int GetEnum()
         {
-            return QueryTypeEnum.GetCellEntityByCellId;
+            return (int)QueryTypeEnum.GetCellEntityByCellId;
         }
 
         public Task<QueryResult> Handle(GetCellEntityByCellIdQuery query, CancellationToken cancellationToken = default)

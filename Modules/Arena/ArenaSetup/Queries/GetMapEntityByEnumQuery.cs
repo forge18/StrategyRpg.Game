@@ -23,16 +23,16 @@ namespace Features.Arena.ArenaSetup
     {
         public readonly World _world;
 
-        public GetMapEntityByEnumHandler(World world)
+        public GetMapEntityByEnumHandler(IEcsWorldService ecsWorldService)
         {
-            _world = world;
+            _world = ecsWorldService.GetWorld(EcsWorldEnum.Default);
         }
 
         public int GetEnum()
         {
             return (int)QueryTypeEnum.GetMapEntityByEnum;
         }
-        
+
         public Task<QueryResult> Handle(GetMapEntityByEnumQuery query, CancellationToken cancellationToken = default)
         {
             var entities = _world.GetEntities().With<MapEnumValue>().AsSet().GetEntities();
@@ -53,7 +53,7 @@ namespace Features.Arena.ArenaSetup
 
             return Task.FromResult(
                 new QueryResult(
-                    QueryTypeEnum.GetMapEntityByEnum, 
+                    QueryTypeEnum.GetMapEntityByEnum,
                     false,
                     null,
                     null

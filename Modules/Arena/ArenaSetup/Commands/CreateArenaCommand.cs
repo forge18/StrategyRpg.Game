@@ -1,6 +1,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DefaultEcs;
+using Infrastructure.Ecs;
 using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 using Presentation.Services;
@@ -9,7 +10,7 @@ namespace Features.Arena.ArenaSetup
 {
     public class CreateArenaCommand : ICommand
     {
-        
+
     }
 
     public class CreateArenaHandler : ICommandHandler<CreateArenaCommand>, IHasEnum
@@ -18,9 +19,9 @@ namespace Features.Arena.ArenaSetup
 
         public readonly INodeService _nodeService;
 
-        public CreateArenaHandler(World world, INodeService nodeService)
+        public CreateArenaHandler(IEcsWorldService ecsWorldService, INodeService nodeService)
         {
-            Arena = world;
+            Arena = ecsWorldService.GetWorld(EcsWorldEnum.Arena);
             _nodeService = nodeService;
         }
 

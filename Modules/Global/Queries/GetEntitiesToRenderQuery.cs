@@ -1,17 +1,17 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
 using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
-using Infrastructure.HubMediator;
 using Infrastructure.Hub;
+using Infrastructure.HubMediator;
+using Microsoft.Extensions.Logging;
 
 namespace Features.Global
 {
     public class GetEntitiesToRenderQuery : IQuery
     {
-        public bool Test { get; set; }
+
     }
 
     public class GetEntitiesToRenderHandler : IQueryHandler<GetEntitiesToRenderQuery>, IHasEnum

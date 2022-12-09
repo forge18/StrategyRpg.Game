@@ -1,11 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.DependencyInjection;
 using System.Linq;
+using System.Threading.Tasks;
+using Infrastructure.DependencyInjection;
 using Infrastructure.Hub;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Infrastructure.HubMediator
 {
@@ -31,16 +31,16 @@ namespace Infrastructure.HubMediator
         public void LoadCommandTypes()
         {
             var handlers = typeof(Startup).Assembly.GetTypes()
-            	.Where(t =>
-					t.GetInterfaces()
-					.Any(i =>
-						i.IsGenericType &&
-						i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
-					)
-				);
-  
-            foreach (var handler in handlers)  
-            {  
+                .Where(t =>
+                    t.GetInterfaces()
+                    .Any(i =>
+                        i.IsGenericType &&
+                        i.GetGenericTypeDefinition() == typeof(ICommandHandler<>)
+                    )
+                );
+
+            foreach (var handler in handlers)
+            {
                 var commandInstance = (IHasEnum)ActivatorUtilities.CreateInstance(_serviceProvider, handler);
                 var commandTypeEnum = (CommandTypeEnum)commandInstance.GetEnum();
                 if (!_commandTypes.ContainsKey(commandTypeEnum))
@@ -70,8 +70,8 @@ namespace Infrastructure.HubMediator
         {
             var command = GetCommand(commandType);
             var method = ((object)command).GetType().GetMethod("Handle");
-            var result = method.Invoke(command, new object[]{ commandData, default });
-            
+            var result = method.Invoke(command, new object[] { commandData, default });
+
             return Task.FromResult<NoResult>(new NoResult());
         }
     }
