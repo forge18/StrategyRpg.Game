@@ -5,16 +5,13 @@ using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 using Microsoft.Extensions.DependencyInjection;
-using Presentation.Services;
 
-namespace Features.Exploration.Unit
+namespace Modules.Exploration
 {
     public class PlayerVelocitySystem : EcsSystem
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
-        private readonly INodeLocatorService _nodeLocatorService;
-        private readonly IEcsEntityService _ecsEntityService;
 
         private readonly World _world;
         private readonly Entity _playerEntity;
@@ -22,15 +19,11 @@ namespace Features.Exploration.Unit
         public PlayerVelocitySystem(
             IServiceProvider serviceProvider,
             IMediator mediator,
-            INodeLocatorService nodeLocatorService,
-            IEcsWorldService ecsWorldService,
-            IEcsEntityService ecsEntityService
+            IEcsWorldService ecsWorldService
         )
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
-            _nodeLocatorService = nodeLocatorService;
-            _ecsEntityService = ecsEntityService;
 
             _world = ecsWorldService.GetWorld();
 

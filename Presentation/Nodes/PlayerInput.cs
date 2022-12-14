@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Features.Global;
 using Godot;
 using Infrastructure.HubMediator;
+using Modules.Global;
 
 namespace Presentation.Nodes
 {

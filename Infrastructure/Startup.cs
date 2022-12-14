@@ -2,7 +2,6 @@ using System;
 using Data;
 using DefaultEcs.System;
 using DefaultEcs.Threading;
-using Features.Global;
 using Godot;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
@@ -23,7 +22,7 @@ namespace Infrastructure.DependencyInjection
         private IEcsDataLoader _ecsDataLoader;
         private IEcsEntityService _ecsEntitiesService;
         private IMediator _mediator;
-        private INodeLocatorService _nodeLocatorService;
+        private INodeTreeService _nodeTreeService;
         private ILoggerFactory _loggerFactory;
 
 
@@ -64,7 +63,7 @@ namespace Infrastructure.DependencyInjection
             _ecsDataLoader = _container.GetService<IEcsDataLoader>();
             _loggerFactory = _container.GetService<ILoggerFactory>();
             _mediator = _container.GetService<IMediator>();
-            _nodeLocatorService = _container.GetService<INodeLocatorService>();
+            _nodeTreeService = _container.GetService<INodeTreeService>();
         }
 
         private void RunBootstrapper()
@@ -72,7 +71,7 @@ namespace Infrastructure.DependencyInjection
             new Bootstrapper(
                 _mediator,
                 _ecsSystemService,
-                _nodeLocatorService,
+                _nodeTreeService,
                 _loggerFactory,
                 _gameRootNode
             ).Run();

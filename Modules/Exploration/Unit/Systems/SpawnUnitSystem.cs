@@ -4,9 +4,9 @@ using DefaultEcs;
 using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
-using Features.Global;
+using Modules.Global;
 
-namespace Features.Exploration.Unit
+namespace Modules.Exploration
 {
     public class SpawnUnitSystem : EcsSystem
     {

@@ -7,7 +7,7 @@ using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 using Infrastructure.Hub;
 
-namespace Features.Unit
+namespace Modules.Exploration
 {
     public class PlayerIsMovingQuery : IQuery
     {

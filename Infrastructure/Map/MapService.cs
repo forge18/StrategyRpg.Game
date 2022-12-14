@@ -1,11 +1,11 @@
 using System;
 using Data;
 using DefaultEcs;
-using Features.Arena.ArenaSetup;
 using Godot;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 using Microsoft.Extensions.DependencyInjection;
+using Modules.Combat;
 using Presentation.Services;
 
 namespace Infrastructure.Map
@@ -15,22 +15,19 @@ namespace Infrastructure.Map
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
         private readonly IEcsDataLoader _ecsDataLoader;
-        private readonly INodeService _nodeService;
-        private readonly INodeLocatorService _nodeLocatorService;
+        private readonly INodeTreeService _nodeTreeService;
 
         public MapService(
             IServiceProvider serviceProvider,
             IMediator mediator,
             IEcsDataLoader ecsDataLoader,
-            INodeService nodeService,
-            INodeLocatorService nodeLocatorService
+            INodeTreeService nodeTreeService
         )
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
             _ecsDataLoader = ecsDataLoader;
-            _nodeService = nodeService;
-            _nodeLocatorService = nodeLocatorService;
+            _nodeTreeService = nodeTreeService;
         }
 
         public void LoadMapEntityIntoEcs(MapEnum mapName)
@@ -60,8 +57,8 @@ namespace Infrastructure.Map
         public void LoadMapSceneIntoNodeTree(PackedScene mapScene, Entity mapEntity)
         {
             var mapNode = mapScene.Instantiate();
-            var parentNode = _nodeLocatorService.GetNodeByKey(NodeKeyEnum.Arena);
-            _nodeService.AddNodeToTree(mapNode, parentNode);
+            var parentNode = _nodeTreeService.GetNode(NodeKeyEnum.Arena);
+            _nodeTreeService.AddNodeToTree(mapNode, parentNode);
         }
     }
 }

@@ -14,7 +14,7 @@ namespace Infrastructure
 
         private readonly IMediator _mediator;
         private readonly IEcsSystemService _ecsSystemService;
-        private readonly INodeLocatorService _nodeLocatorService;
+        private readonly INodeTreeService _nodeTreeService;
         private readonly ILoggerFactory _loggerFactory;
         private readonly ILogger<Bootstrapper> _logger;
 
@@ -23,14 +23,14 @@ namespace Infrastructure
         public Bootstrapper(
             IMediator mediator, 
             IEcsSystemService ecsSystemService, 
-            INodeLocatorService nodeLocatorService, 
+            INodeTreeService nodeTreeService, 
             ILoggerFactory loggerFactory,
             Node gameRootNode
         )
         {
             _mediator = mediator;
             _ecsSystemService = ecsSystemService;
-            _nodeLocatorService = nodeLocatorService;
+            _nodeTreeService = nodeTreeService;
             _loggerFactory = loggerFactory;
             _logger = loggerFactory.CreateLogger<Bootstrapper>();
             _gameRootNode = gameRootNode;
@@ -54,7 +54,7 @@ namespace Infrastructure
             gameNode.Name = NodeKeyEnum.Game.ToString();
 
             _gameRootNode.AddChild(gameNode);
-            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.Game, gameNode);
+            _nodeTreeService.AddNodeToLookupByKey(NodeKeyEnum.Game, gameNode);
         }
 
         public void CreateInputNode()
@@ -63,7 +63,7 @@ namespace Infrastructure
             inputNode.Name = NodeKeyEnum.PlayerInput.ToString();
 
             _gameRootNode.AddChild(inputNode);
-            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.PlayerInput, inputNode);
+            _nodeTreeService.AddNodeToLookupByKey(NodeKeyEnum.PlayerInput, inputNode);
         }
 
         public void CreateUnitsNode()
@@ -72,7 +72,7 @@ namespace Infrastructure
             unitsNode.Name = NodeKeyEnum.Units.ToString();
 
             _gameRootNode.AddChild(unitsNode);
-            _nodeLocatorService.AddNodeByKey(NodeKeyEnum.Units, unitsNode);
+            _nodeTreeService.AddNodeToLookupByKey(NodeKeyEnum.Units, unitsNode);
         }
     }
 }

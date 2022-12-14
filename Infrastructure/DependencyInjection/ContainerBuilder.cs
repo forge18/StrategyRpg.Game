@@ -42,10 +42,8 @@ namespace Infrastructure.DependencyInjection
             );
             container.AddSingleton<IEcsSystemService, EcsSystemService>();
             container.AddSingleton<IEcsWorldService, EcsWorldService>();
-            container.AddSingleton<INodeLocatorService, NodeLocatorService>();
-            container.AddSingleton<INodeService, NodeService>(
-                provider => new NodeService(
-                    provider.GetService<INodeLocatorService>(),
+            container.AddSingleton<INodeTreeService, NodeTreeService>(
+                provider => new NodeTreeService(
                     provider.GetService<ILoggerFactory>()
                 )
             );

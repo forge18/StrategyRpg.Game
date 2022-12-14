@@ -7,7 +7,7 @@ using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 using Microsoft.Extensions.Logging;
 
-namespace Features.Global
+namespace Modules.Global
 {
     public class GetEntitiesToRenderQuery : IQuery
     {

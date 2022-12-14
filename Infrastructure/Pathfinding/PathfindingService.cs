@@ -1,7 +1,6 @@
-using Features.Arena.GridActions;
-using Features.Combat.GridActions;
 using Godot;
 using Infrastructure.HubMediator;
+using Modules.Combat;
 
 namespace Infrastructure.Pathfinding
 {

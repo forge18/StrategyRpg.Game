@@ -9,7 +9,7 @@ using Infrastructure.HubMediator;
 using Presentation.Services;
 using Infrastructure.Hub;
 
-namespace Features.Exploration.Unit
+namespace Modules.Exploration
 {
     public class SpawnUnitCommand : ICommand
     {
@@ -33,17 +33,17 @@ namespace Features.Exploration.Unit
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly IMediator _mediator;
-        private readonly INodeLocatorService _nodeLocatorService;
+        private readonly INodeTreeService _nodeTreeService;
 
         public SpawnUnitHandler(
             IServiceProvider serviceProvider,
             IMediator mediator,
-            INodeLocatorService nodeLocatorService
+            INodeTreeService nodeTreeService
         )
         {
             _serviceProvider = serviceProvider;
             _mediator = mediator;
-            _nodeLocatorService = nodeLocatorService;
+            _nodeTreeService = nodeTreeService;
         }
 
         public int GetEnum()
@@ -83,7 +83,7 @@ namespace Features.Exploration.Unit
 
         public void AttachUnitToUnitsNode(SpawnUnitCommand command, CharacterBody2D node)
         {
-            var unitsNode = _nodeLocatorService.GetNodeByKey(NodeKeyEnum.Units);
+            var unitsNode = _nodeTreeService.GetNode(NodeKeyEnum.Units);
             if (unitsNode == null)
             {
                 GD.PrintErr("Units node not found");
@@ -92,7 +92,7 @@ namespace Features.Exploration.Unit
 
             unitsNode.AddChild(node);
 
-            _nodeLocatorService.AddNodeByEntityId(command.UnitEntity.Get<EntityId>().Value, node);
+            _nodeTreeService.AddNodeToLookupByEntityId(command.UnitEntity.Get<EntityId>().Value, node);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
-namespace Features.Global
+namespace Modules.Global
 {
     public class InputUpdatedEvent : IEvent
     {

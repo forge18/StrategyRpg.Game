@@ -4,7 +4,7 @@ using Infrastructure.Ecs;
 using Infrastructure.Ecs.Components;
 using Infrastructure.HubMediator;
 
-namespace Features.Global
+namespace Modules.Global
 {
     public class ProcessInputSystem: EcsSystem, IEventListener
     {

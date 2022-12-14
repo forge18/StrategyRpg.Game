@@ -13,7 +13,10 @@ namespace Infrastructure.HubMediator
         GetMapEntityByEnum,
         GetMapEvents,
         GetPlayerEntity,
+        GetUnitsToAddToGrid,
         GetUnitsToLoad,
+        GetUnitsToMoveOnGrid,
+        GetUnitsToRemoveFromGrid,
         PlayerIsMoving,
     }
 }

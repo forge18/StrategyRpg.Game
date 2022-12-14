@@ -7,6 +7,8 @@ namespace Infrastructure.HubMediator
         CreateGrid,
         LoadArenaMap,
         MovePlayer,
+        MoveUnitOnGrid,
+        RemoveUnitFromGrid,
         SetMapEvents,
         SetObjectives,
         SpawnUnit,

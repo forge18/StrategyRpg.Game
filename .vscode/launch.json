@@ -6,8 +6,8 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "C:/Users/traut/Desktop/Godot_v4.0/Godot_v4.0-beta4_mono_win64/Godot_v4.0-beta4_mono_win64.exe",
-            // "program": "~/Documents/Godot_4.0/Godot_mono.app/Contents/MacOS/Godot",
+            // "program": "C:/Users/traut/Desktop/Godot_v4.0/Godot_v4.0-beta4_mono_win64/Godot_v4.0-beta4_mono_win64.exe",
+            "program": "~/Documents/Godot_4.0/Godot_mono.app/Contents/MacOS/Godot",
             "console": "internalConsole",
             "stopAtEntry": false,
             "logging": {

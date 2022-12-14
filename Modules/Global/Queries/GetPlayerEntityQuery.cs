@@ -6,7 +6,7 @@ using Infrastructure.Ecs.Components;
 using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
-namespace Features.Global
+namespace Modules.Global
 {
     public class GetPlayerEntityQuery : IQuery
     {

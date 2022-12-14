@@ -7,7 +7,7 @@ using Infrastructure.Ecs.Components;
 using Infrastructure.Hub;
 using Infrastructure.HubMediator;
 
-namespace Features.Global.Queries
+namespace Modules.Global
 {
     public class ConvertEntityIdsToEntities
     {
